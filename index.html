@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Above the Treeline</title>
-<meta name="description" content="A field guide to the world's mountains: the highest peaks, how mountains form, the life zones on their slopes, the animals that live there, and the records they hold.">
+<meta name="description" content="A field guide to the world's mountains, in English and French: the highest peaks, how mountains form, the life zones on their slopes, the animals that live there, and the records they hold.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -48,6 +48,7 @@
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
 body {
@@ -67,7 +68,6 @@ p { margin: 0; }
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
-.prose { max-width: 66ch; }
 .eyebrow {
   font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--accent); display: block; margin-bottom: 0.6rem;
@@ -82,15 +82,17 @@ nav.top {
   border-bottom: 1px solid var(--line);
 }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
-nav.top .wrap { display: flex; align-items: center; gap: 1rem; padding-block: 0.6rem; }
+nav.top .wrap { display: flex; align-items: center; gap: 0.75rem; padding-block: 0.6rem; }
 nav.top .brand { font-family: var(--display); font-weight: 800; text-decoration: none; color: var(--ink); white-space: nowrap; }
-nav.top ul { list-style: none; display: flex; gap: 0.2rem; margin: 0 0 0 auto; padding: 0; overflow-x: auto; scrollbar-width: none; }
+nav.top ul { list-style: none; display: flex; gap: 0.2rem; margin: 0 0 0 auto; padding: 0; overflow-x: auto; scrollbar-width: none; min-width: 0; }
 nav.top ul::-webkit-scrollbar { display: none; }
 nav.top a.n { font-family: var(--display); font-size: 0.92rem; text-decoration: none; color: var(--muted); padding: 0.35rem 0.6rem; border-radius: 6px; white-space: nowrap; }
 nav.top a.n:hover { color: var(--ink); background: var(--chip); }
-.unit-toggle { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; flex-shrink: 0; }
-.unit-toggle button { font: 500 0.78rem var(--mono); border: 0; background: transparent; color: var(--muted); padding: 0.3rem 0.65rem; cursor: pointer; }
-.unit-toggle button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; flex-shrink: 0; }
+.seg button { font: 500 0.78rem var(--mono); border: 0; background: transparent; color: var(--muted); padding: 0.3rem 0.65rem; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.seg.lang button { font-weight: 600; letter-spacing: 0.04em; }
+@media (max-width: 560px) { nav.top .brand { display: none; } nav.top ul { margin-left: 0; } }
 
 /* HERO */
 .hero { position: relative; background: linear-gradient(180deg, var(--sky-top), var(--sky-bot)); overflow: hidden; }
@@ -99,10 +101,10 @@ nav.top a.n:hover { color: var(--ink); background: var(--chip); }
   font-size: clamp(3rem, 11vw, 7.5rem); font-weight: 800; letter-spacing: -0.03em; line-height: 0.92;
   font-variation-settings: "opsz" 96;
 }
-.hero h1 span { color: var(--accent); }
-.hero .lede { margin-top: 1.25rem; font-size: clamp(1.05rem, 2.2vw, 1.3rem); max-width: 40ch; color: var(--ink); }
+.hero h1 .hl { color: var(--accent); }
+.hero .lede { margin-top: 1.25rem; font-size: clamp(1.05rem, 2.2vw, 1.3rem); max-width: 42ch; color: var(--ink); }
 .hero .stats { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin-top: 1.8rem; }
-.hero .stats div { display: flex; flex-direction: column; }
+.hero .stats > div { display: flex; flex-direction: column; }
 .hero .stats b { font: 500 1.35rem var(--mono); font-variant-numeric: tabular-nums; }
 .hero .stats small { font-size: 0.82rem; color: var(--muted); }
 .ridges { display: block; width: 100%; height: auto; margin-top: -1rem; }
@@ -151,14 +153,13 @@ td .note { display: block; color: var(--muted); font-size: 0.86rem; }
 .type svg { width: 100%; height: 110px; display: block; }
 .type svg .ground { fill: var(--ridge-2); } .type svg .rock { fill: var(--ridge-3); } .type svg .hot { fill: var(--accent); }
 .type svg .layer { fill: none; stroke: var(--bg); stroke-width: 2; opacity: .8; } .type svg .arrow { stroke: var(--ink); stroke-width: 2; fill: none; } .type svg .arrowhead { fill: var(--ink); }
-.type svg .sky { fill: var(--bg); }
 .type p { font-size: 0.95rem; }
 .type .ex { font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 0.6rem; margin-top: auto; }
 .type .ex b { font-family: var(--mono); font-weight: 500; font-size: 0.72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); margin-right: .4rem; }
 
 /* ZONES */
-.zones { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
-.zone { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 1.25rem; padding: 1.1rem 1.25rem; border-bottom: 1px solid var(--line); position: relative; }
+.zones { display: grid; grid-template-columns: minmax(0, 1fr); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.zone { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 1.25rem; padding: 1.1rem 1.25rem; border-bottom: 1px solid var(--line); position: relative; }
 .zone:last-child { border-bottom: 0; }
 .zone::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--zc); }
 .zone .alt { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); padding-left: 0.4rem; }
@@ -166,7 +167,7 @@ td .note { display: block; color: var(--muted); font-size: 0.86rem; }
 .zone p { font-size: 0.95rem; }
 @media (max-width: 560px) { .zone { grid-template-columns: minmax(0, 1fr); gap: 0.3rem; } }
 .lapse { margin-top: 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
-.lapse div { padding: 1rem 1.1rem; background: var(--chip); border-radius: 8px; }
+.lapse > div { padding: 1rem 1.1rem; background: var(--chip); border-radius: 8px; }
 .lapse b { display: block; font: 500 1.5rem var(--mono); font-variant-numeric: tabular-nums; }
 .lapse span { font-size: 0.88rem; color: var(--muted); }
 
@@ -182,7 +183,7 @@ td .note { display: block; color: var(--muted); font-size: 0.86rem; }
 .animal .adapt b { color: var(--lichen); font-family: var(--display); }
 .animal .elev { height: 6px; background: var(--chip); border-radius: 3px; position: relative; }
 .animal .elev i { position: absolute; top: 0; bottom: 0; background: var(--lichen); border-radius: 3px; }
-.animal .elev-l { font: 400 0.72rem var(--mono); color: var(--muted); display: flex; justify-content: space-between; }
+.animal .elev-l { font: 400 0.72rem var(--mono); color: var(--muted); }
 
 /* RECORDS */
 .records { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
@@ -203,7 +204,7 @@ td .note { display: block; color: var(--muted); font-size: 0.86rem; }
 .facts-list li { padding-left: 1.4rem; position: relative; font-size: 0.95rem; }
 .facts-list li::before { content: "▲"; position: absolute; left: 0; top: 0.1em; color: var(--accent); font-size: 0.7rem; }
 
-/* SAFETY / PEOPLE */
+/* PEOPLE */
 .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
 .two > div { min-width: 0; display: flex; flex-direction: column; gap: 0.9rem; }
 .two p { font-size: 0.97rem; }
@@ -230,34 +231,39 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
 
 <nav class="top" aria-label="Sections">
   <div class="wrap">
-    <a class="brand" href="#top">Above the Treeline</a>
+    <a class="brand" href="#top"><span data-l="en">Above the Treeline</span><span data-l="fr" hidden>Au-dessus des arbres</span></a>
     <ul>
-      <li><a class="n" href="#peaks">Peaks</a></li>
+      <li><a class="n" href="#peaks"><span data-l="en">Peaks</span><span data-l="fr" hidden>Sommets</span></a></li>
       <li><a class="n" href="#types">Types</a></li>
-      <li><a class="n" href="#zones">Life zones</a></li>
-      <li><a class="n" href="#animals">Animals</a></li>
+      <li><a class="n" href="#zones"><span data-l="en">Life zones</span><span data-l="fr" hidden>Étages</span></a></li>
+      <li><a class="n" href="#animals"><span data-l="en">Animals</span><span data-l="fr" hidden>Animaux</span></a></li>
       <li><a class="n" href="#records">Records</a></li>
-      <li><a class="n" href="#facts">Facts</a></li>
-      <li><a class="n" href="#people">Climbing</a></li>
+      <li><a class="n" href="#facts"><span data-l="en">Facts</span><span data-l="fr" hidden>Faits</span></a></li>
+      <li><a class="n" href="#people"><span data-l="en">Climbing</span><span data-l="fr" hidden>Alpinisme</span></a></li>
       <li><a class="n" href="#references">Sources</a></li>
     </ul>
-    <div class="unit-toggle" role="group" aria-label="Units">
+    <div class="seg lang" role="group" aria-label="Language / Langue">
+      <button type="button" id="l-en" aria-pressed="true" lang="en" title="English">EN</button>
+      <button type="button" id="l-fr" aria-pressed="false" lang="fr" title="Français">FR</button>
+    </div>
+    <div class="seg" role="group" aria-label="Units">
       <button type="button" id="u-m" aria-pressed="true">m</button>
-      <button type="button" id="u-ft" aria-pressed="false">ft</button>
+      <button type="button" id="u-ft" aria-pressed="false"><span data-l="en">ft</span><span data-l="fr" hidden>pi</span></button>
     </div>
   </div>
 </nav>
 
 <header class="hero" id="top">
   <div class="wrap">
-    <span class="eyebrow">A field guide to the high places</span>
-    <h1>Above the<br><span>Treeline</span></h1>
-    <p class="lede">Mountains cover about a quarter of Earth's land. They make their own weather, store most of our fresh water, and shelter animals found nowhere else. Here is what makes them tick.</p>
+    <span class="eyebrow"><span data-l="en">A field guide to the high places</span><span data-l="fr" hidden>Un guide des hauts lieux</span></span>
+    <h1><span data-l="en">Above the<br><span class="hl">Treeline</span></span><span data-l="fr" hidden>Au-dessus<br><span class="hl">des arbres</span></span></h1>
+    <p class="lede" data-l="en">Mountains cover about a quarter of Earth's land. They make their own weather, store most of our fresh water, and shelter animals found nowhere else. Here is what makes them tick.</p>
+    <p class="lede" data-l="fr" hidden>Les montagnes couvrent environ un quart des terres émergées. Elles créent leur propre météo, stockent l'essentiel de notre eau douce et abritent des animaux qu'on ne trouve nulle part ailleurs. Voici ce qui les rend si fascinantes.</p>
     <div class="stats">
-      <div><b class="mono" data-m="8849">8,849 m</b><small>Height of Everest</small></div>
-      <div><b class="mono">14</b><small>Peaks over 8,000 m</small></div>
-      <div><b class="mono">60–80%</b><small>Of fresh water starts in mountains</small></div>
-      <div><b class="mono">Dec 11</b><small>International Mountain Day</small></div>
+      <div><b class="mono" data-m="8849">8,849 m</b><small><span data-l="en">Height of Everest</span><span data-l="fr" hidden>Altitude de l'Everest</span></small></div>
+      <div><b class="mono">14</b><small><span data-l="en">Peaks over</span><span data-l="fr" hidden>Sommets de plus de</span> <span data-m="8000">8,000 m</span></small></div>
+      <div><b class="mono"><span data-l="en">60–80%</span><span data-l="fr" hidden>60–80 %</span></b><small><span data-l="en">Of fresh water starts in mountains</span><span data-l="fr" hidden>De l'eau douce naît en montagne</span></small></div>
+      <div><b class="mono"><span data-l="en">Dec 11</span><span data-l="fr" hidden>11 déc.</span></b><small><span data-l="en">International Mountain Day</span><span data-l="fr" hidden>Journée internationale de la montagne</span></small></div>
     </div>
   </div>
   <svg class="ridges" viewBox="0 0 1440 300" preserveAspectRatio="none" aria-hidden="true">
@@ -276,24 +282,30 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
 <section id="peaks">
   <div class="wrap">
     <div class="head">
-      <span class="eyebrow">01 · The giants</span>
-      <h2>The world's highest peaks</h2>
-      <p>All fourteen mountains taller than 8,000 metres stand in Asia, in the Himalaya and Karakoram. Above that line climbers enter the "death zone", where there is too little oxygen for the human body to survive for long.</p>
+      <span class="eyebrow"><span data-l="en">01 · The giants</span><span data-l="fr" hidden>01 · Les géants</span></span>
+      <h2><span data-l="en">The world's highest peaks</span><span data-l="fr" hidden>Les plus hauts sommets du monde</span></h2>
+      <p data-l="en">All fourteen mountains taller than 8,000 metres stand in Asia, in the Himalaya and Karakoram. Above that line climbers enter the "death zone", where there is too little oxygen for the human body to survive for long.</p>
+      <p data-l="fr" hidden>Les quatorze montagnes de plus de 8 000 mètres se trouvent toutes en Asie, dans l'Himalaya et le Karakoram. Au-delà de cette altitude, les alpinistes entrent dans la « zone de la mort », où l'oxygène est trop rare pour que le corps humain y survive longtemps.</p>
     </div>
 
     <div class="chart-wrap" role="img" aria-label="Bar chart of the ten highest mountains, from Everest at 8,849 metres to Annapurna at 8,091 metres, drawn to scale from sea level.">
       <svg id="peak-chart" viewBox="0 0 1000 340"></svg>
     </div>
-    <p class="chart-note">Bars drawn to scale from sea level. Hover a bar for its height. Dashed line marks the 8,000 m death zone.</p>
+    <p class="chart-note"><span data-l="en">Bars drawn to scale from sea level. Hover a bar for its height. Dashed line marks the 8,000 m death zone.</span><span data-l="fr" hidden>Barres à l'échelle depuis le niveau de la mer. Survolez une barre pour voir son altitude. La ligne pointillée marque la zone de la mort à 8 000 m.</span></p>
 
     <div class="tabs" role="tablist" aria-label="Peak lists">
-      <button role="tab" id="tab-8k" aria-selected="true" aria-controls="peak-table">Tallest 10</button>
-      <button role="tab" id="tab-7s" aria-selected="false" aria-controls="peak-table">Seven Summits</button>
-      <button role="tab" id="tab-fam" aria-selected="false" aria-controls="peak-table">Famous peaks</button>
+      <button role="tab" id="tab-8k" aria-selected="true" aria-controls="peak-table"><span data-l="en">Tallest 10</span><span data-l="fr" hidden>Les 10 plus hauts</span></button>
+      <button role="tab" id="tab-7s" aria-selected="false" aria-controls="peak-table"><span data-l="en">Seven Summits</span><span data-l="fr" hidden>Sept sommets</span></button>
+      <button role="tab" id="tab-fam" aria-selected="false" aria-controls="peak-table"><span data-l="en">Famous peaks</span><span data-l="fr" hidden>Sommets célèbres</span></button>
     </div>
     <div class="table-wrap">
       <table id="peak-table">
-        <thead><tr><th>Mountain</th><th>Range / Location</th><th class="num">Height</th><th>First ascent</th></tr></thead>
+        <thead><tr>
+          <th><span data-l="en">Mountain</span><span data-l="fr" hidden>Montagne</span></th>
+          <th><span data-l="en">Range / Location</span><span data-l="fr" hidden>Chaîne / Lieu</span></th>
+          <th class="num"><span data-l="en">Height</span><span data-l="fr" hidden>Altitude</span></th>
+          <th><span data-l="en">First ascent</span><span data-l="fr" hidden>Première ascension</span></th>
+        </tr></thead>
         <tbody></tbody>
       </table>
     </div>
@@ -303,9 +315,10 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
 <section id="types">
   <div class="wrap">
     <div class="head">
-      <span class="eyebrow">02 · How they form</span>
-      <h2>Five kinds of mountain</h2>
-      <p>Every mountain is built by one of a few forces: plates colliding, crust cracking apart, magma pushing up, or rivers and ice carving away everything around them. The shape of a mountain usually tells you which force made it.</p>
+      <span class="eyebrow"><span data-l="en">02 · How they form</span><span data-l="fr" hidden>02 · Leur formation</span></span>
+      <h2><span data-l="en">Five kinds of mountain</span><span data-l="fr" hidden>Cinq sortes de montagnes</span></h2>
+      <p data-l="en">Every mountain is built by one of a few forces: plates colliding, crust cracking apart, magma pushing up, or rivers and ice carving away everything around them. The shape of a mountain usually tells you which force made it.</p>
+      <p data-l="fr" hidden>Chaque montagne est façonnée par l'une de quelques forces : des plaques qui se heurtent, une croûte qui se fracture, du magma qui pousse vers le haut, ou des rivières et des glaciers qui creusent tout autour. La forme d'une montagne révèle souvent la force qui l'a créée.</p>
     </div>
     <div class="types">
       <article class="type">
@@ -316,9 +329,10 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
           <path class="arrow" d="M8 15 H40"/><path class="arrowhead" d="M48 15 L38 10 V20Z"/>
           <path class="arrow" d="M292 15 H260"/><path class="arrowhead" d="M252 15 L262 10 V20Z"/>
         </svg>
-        <h3>Fold mountains</h3>
-        <p>Two tectonic plates push into each other and the rock between them crumples like a rug shoved against a wall. These are the biggest and youngest ranges on Earth, and many are still rising.</p>
-        <p class="ex"><b>Examples</b>Himalaya, Alps, Andes, Rockies, Zagros</p>
+        <h3><span data-l="en">Fold mountains</span><span data-l="fr" hidden>Montagnes de plissement</span></h3>
+        <p data-l="en">Two tectonic plates push into each other and the rock between them crumples like a rug shoved against a wall. These are the biggest and youngest ranges on Earth, and many are still rising.</p>
+        <p data-l="fr" hidden>Deux plaques tectoniques se poussent l'une contre l'autre et la roche entre elles se froisse comme un tapis poussé contre un mur. Ce sont les chaînes les plus grandes et les plus jeunes de la Terre, et beaucoup s'élèvent encore.</p>
+        <p class="ex"><span data-l="en"><b>Examples</b>Himalaya, Alps, Andes, Rockies, Zagros</span><span data-l="fr" hidden><b>Exemples</b>Himalaya, Alpes, Andes, Rocheuses, Zagros</span></p>
       </article>
       <article class="type">
         <svg viewBox="0 0 300 110" aria-hidden="true">
@@ -329,9 +343,10 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
           <path class="arrow" d="M150 15 V2"/><path class="arrowhead" d="M150 -4 L145 6 H155Z"/>
           <path class="arrow" d="M255 70 V88"/><path class="arrowhead" d="M255 94 L250 84 H260Z"/>
         </svg>
-        <h3>Fault-block mountains</h3>
-        <p>When the crust is stretched it cracks along faults. Huge blocks tilt or lift on one side and drop on the other, leaving a steep face above a flat valley.</p>
-        <p class="ex"><b>Examples</b>Sierra Nevada, Teton Range, Harz</p>
+        <h3><span data-l="en">Fault-block mountains</span><span data-l="fr" hidden>Montagnes de failles</span></h3>
+        <p data-l="en">When the crust is stretched it cracks along faults. Huge blocks tilt or lift on one side and drop on the other, leaving a steep face above a flat valley.</p>
+        <p data-l="fr" hidden>Quand la croûte terrestre s'étire, elle se fracture le long de failles. D'immenses blocs basculent ou se soulèvent d'un côté et s'affaissent de l'autre, laissant une paroi abrupte au-dessus d'une vallée plate.</p>
+        <p class="ex"><span data-l="en"><b>Examples</b>Sierra Nevada, Teton Range, Harz</span><span data-l="fr" hidden><b>Exemples</b>Sierra Nevada, chaîne Teton, Harz</span></p>
       </article>
       <article class="type">
         <svg viewBox="0 0 300 110" aria-hidden="true">
@@ -340,9 +355,10 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
           <path class="hot" d="M120 110 C120 100 180 100 180 110Z"/>
           <path class="hot" d="M140 22 C135 10 150 6 150 0 C152 8 166 10 160 22Z" opacity=".6"/>
         </svg>
-        <h3>Volcanic mountains</h3>
-        <p>Molten rock erupts through the crust and piles up, layer by layer of lava and ash, into a cone. Some of the tallest single mountains on Earth, and in the solar system, are volcanoes.</p>
-        <p class="ex"><b>Examples</b>Mount Fuji, Kilimanjaro, Mauna Loa, Mount St. Helens</p>
+        <h3><span data-l="en">Volcanic mountains</span><span data-l="fr" hidden>Montagnes volcaniques</span></h3>
+        <p data-l="en">Molten rock erupts through the crust and piles up, layer by layer of lava and ash, into a cone. Some of the tallest single mountains on Earth, and in the solar system, are volcanoes.</p>
+        <p data-l="fr" hidden>La roche en fusion perce la croûte et s'accumule, couche après couche de lave et de cendres, en forme de cône. Certaines des plus hautes montagnes isolées de la Terre, et du système solaire, sont des volcans.</p>
+        <p class="ex"><span data-l="en"><b>Examples</b>Mount Fuji, Kilimanjaro, Mauna Loa, Mount St. Helens</span><span data-l="fr" hidden><b>Exemples</b>Mont Fuji, Kilimandjaro, Mauna Loa, mont Saint Helens</span></p>
       </article>
       <article class="type">
         <svg viewBox="0 0 300 110" aria-hidden="true">
@@ -350,27 +366,30 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
           <path class="hot" d="M95 110 C95 70 205 70 205 110Z"/>
           <path class="layer" d="M0 100 C70 100 90 40 150 40 C210 40 230 100 300 100"/>
         </svg>
-        <h3>Dome mountains</h3>
-        <p>Magma rises under the surface but never breaks through. It bulges the rock above into a rounded dome, and erosion later strips the softer top layers away.</p>
-        <p class="ex"><b>Examples</b>Black Hills (South Dakota), Adirondacks, Henry Mountains</p>
+        <h3><span data-l="en">Dome mountains</span><span data-l="fr" hidden>Montagnes en dôme</span></h3>
+        <p data-l="en">Magma rises under the surface but never breaks through. It bulges the rock above into a rounded dome, and erosion later strips the softer top layers away.</p>
+        <p data-l="fr" hidden>Le magma monte sous la surface sans jamais la percer. Il bombe la roche au-dessus en un dôme arrondi, puis l'érosion arrache peu à peu les couches supérieures plus tendres.</p>
+        <p class="ex"><span data-l="en"><b>Examples</b>Black Hills (South Dakota), Adirondacks, Henry Mountains</span><span data-l="fr" hidden><b>Exemples</b>Black Hills (Dakota du Sud), Adirondacks, monts Henry</span></p>
       </article>
       <article class="type">
         <svg viewBox="0 0 300 110" aria-hidden="true">
           <path class="ground" d="M0 110 V40 H70 L95 100 H125 L140 45 H200 L220 100 H245 L260 35 H300 V110Z"/>
           <path class="layer" d="M0 55 H75"/><path class="layer" d="M138 60 H203"/><path class="layer" d="M257 50 H300"/>
         </svg>
-        <h3>Plateau (erosion) mountains</h3>
-        <p>A high, flat plateau is cut by rivers and glaciers over millions of years. What is left between the deep valleys stands up as mountains, often with flat tops.</p>
-        <p class="ex"><b>Examples</b>Catskills, Table Mountain, the tepuis of Venezuela</p>
+        <h3><span data-l="en">Plateau (erosion) mountains</span><span data-l="fr" hidden>Montagnes de plateau (érosion)</span></h3>
+        <p data-l="en">A high, flat plateau is cut by rivers and glaciers over millions of years. What is left between the deep valleys stands up as mountains, often with flat tops.</p>
+        <p data-l="fr" hidden>Un haut plateau est entaillé par des rivières et des glaciers pendant des millions d'années. Ce qui reste entre les vallées profondes forme des montagnes, souvent au sommet plat.</p>
+        <p class="ex"><span data-l="en"><b>Examples</b>Catskills, Table Mountain, the tepuis of Venezuela</span><span data-l="fr" hidden><b>Exemples</b>Catskills, montagne de la Table, tepuys du Venezuela</span></p>
       </article>
       <article class="type">
         <svg viewBox="0 0 300 110" aria-hidden="true">
           <path class="ground" d="M0 110 V95 C50 95 70 70 110 62 C150 55 170 78 200 70 C240 60 260 88 300 92 V110Z"/>
           <path class="rock" d="M0 110 V102 H300 V110Z"/>
         </svg>
-        <h3>Old, worn-down ranges</h3>
-        <p>Every range starts sharp and wears down. The Appalachians formed about 480 to 300 million years ago and may once have been as high as the Alps. Today they are soft, rounded and forested.</p>
-        <p class="ex"><b>Examples</b>Appalachians, Urals, Scottish Highlands</p>
+        <h3><span data-l="en">Old, worn-down ranges</span><span data-l="fr" hidden>Chaînes anciennes et usées</span></h3>
+        <p data-l="en">Every range starts sharp and wears down. The Appalachians formed about 480 to 300 million years ago and may once have been as high as the Alps. Today they are soft, rounded and forested.</p>
+        <p data-l="fr" hidden>Toute chaîne naît escarpée puis s'use. Les Appalaches se sont formées il y a environ 480 à 300 millions d'années et ont peut-être été aussi hautes que les Alpes. Aujourd'hui, elles sont douces, arrondies et boisées.</p>
+        <p class="ex"><span data-l="en"><b>Examples</b>Appalachians, Urals, Scottish Highlands</span><span data-l="fr" hidden><b>Exemples</b>Appalaches, Oural, Highlands d'Écosse</span></p>
       </article>
     </div>
   </div>
@@ -379,21 +398,42 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
 <section id="zones">
   <div class="wrap">
     <div class="head">
-      <span class="eyebrow">03 · Climbing through climates</span>
-      <h2>Life zones on a mountain</h2>
-      <p>Walking up a big mountain is like walking from the equator toward the poles. Every few hundred metres the air gets colder and thinner, and plants and animals change with it. The heights below are typical for a mid-latitude range like the Alps or Rockies; near the equator each zone sits higher.</p>
+      <span class="eyebrow"><span data-l="en">03 · Climbing through climates</span><span data-l="fr" hidden>03 · Gravir les climats</span></span>
+      <h2><span data-l="en">Life zones on a mountain</span><span data-l="fr" hidden>Les étages de la montagne</span></h2>
+      <p data-l="en">Walking up a big mountain is like walking from the equator toward the poles. Every few hundred metres the air gets colder and thinner, and plants and animals change with it. The heights below are typical for a mid-latitude range like the Alps or Rockies; near the equator each zone sits higher.</p>
+      <p data-l="fr" hidden>Gravir une grande montagne, c'est comme marcher de l'équateur vers les pôles. Toutes les quelques centaines de mètres, l'air devient plus froid et plus rare, et les plantes et les animaux changent avec lui. Les altitudes ci-dessous sont typiques d'une chaîne de latitude moyenne comme les Alpes ou les Rocheuses ; près de l'équateur, chaque étage se situe plus haut.</p>
     </div>
     <div class="zones">
-      <div class="zone" style="--zc:#e9eef2"><div class="alt" data-range="3500,9000">3,500 m +</div><div><h3>Nival zone (snow and ice)</h3><p>Permanent snow, glaciers and bare rock. Only lichens, a few hardy insects and passing birds survive here. Wind and ultraviolet light are intense.</p></div></div>
-      <div class="zone" style="--zc:#a9b6c0"><div class="alt" data-range="2800,3500">2,800–3,500 m</div><div><h3>Alpine zone</h3><p>Above the treeline. Low cushion plants, grasses and wildflowers hug the ground to stay out of the wind. Home to marmots, pikas, ibex and mountain goats.</p></div></div>
-      <div class="zone" style="--zc:#7c9a5a"><div class="alt" data-range="2000,2800">2,000–2,800 m</div><div><h3>Subalpine zone</h3><p>Stunted, wind-twisted trees called krummholz ("crooked wood") mark the treeline. Conifers such as spruce, fir and larch thin out into meadows.</p></div></div>
-      <div class="zone" style="--zc:#4f7a3a"><div class="alt" data-range="1000,2000">1,000–2,000 m</div><div><h3>Montane zone</h3><p>Dense conifer and mixed forest. Cool and wet, with deer, bears, owls and woodpeckers. Much of a mountain's rain and snow falls in this band.</p></div></div>
-      <div class="zone" style="--zc:#b79a5b"><div class="alt" data-range="0,1000">Below 1,000 m</div><div><h3>Foothills (colline zone)</h3><p>Broadleaf woods, farms and villages. Warmest and most human-shaped part of the mountain.</p></div></div>
+      <div class="zone" style="--zc:#e9eef2"><div class="alt" data-range="3500,9000">3,500 m +</div><div>
+        <h3><span data-l="en">Nival zone (snow and ice)</span><span data-l="fr" hidden>Étage nival (neige et glace)</span></h3>
+        <p data-l="en">Permanent snow, glaciers and bare rock. Only lichens, a few hardy insects and passing birds survive here. Wind and ultraviolet light are intense.</p>
+        <p data-l="fr" hidden>Neiges éternelles, glaciers et roche nue. Seuls les lichens, quelques insectes robustes et des oiseaux de passage survivent ici. Le vent et les ultraviolets sont intenses.</p>
+      </div></div>
+      <div class="zone" style="--zc:#a9b6c0"><div class="alt" data-range="2800,3500">2,800–3,500 m</div><div>
+        <h3><span data-l="en">Alpine zone</span><span data-l="fr" hidden>Étage alpin</span></h3>
+        <p data-l="en">Above the treeline. Low cushion plants, grasses and wildflowers hug the ground to stay out of the wind. Home to marmots, pikas, ibex and mountain goats.</p>
+        <p data-l="fr" hidden>Au-dessus de la limite des arbres. Des plantes en coussin, des herbes et des fleurs sauvages restent au ras du sol pour échapper au vent. On y trouve marmottes, pikas, bouquetins et chèvres des montagnes.</p>
+      </div></div>
+      <div class="zone" style="--zc:#7c9a5a"><div class="alt" data-range="2000,2800">2,000–2,800 m</div><div>
+        <h3><span data-l="en">Subalpine zone</span><span data-l="fr" hidden>Étage subalpin</span></h3>
+        <p data-l="en">Stunted, wind-twisted trees called krummholz ("crooked wood") mark the treeline. Conifers such as spruce, fir and larch thin out into meadows.</p>
+        <p data-l="fr" hidden>Des arbres rabougris et tordus par le vent, appelés krummholz (« bois tordu » en allemand), marquent la limite des arbres. Les conifères comme l'épicéa, le sapin et le mélèze laissent peu à peu place aux prairies.</p>
+      </div></div>
+      <div class="zone" style="--zc:#4f7a3a"><div class="alt" data-range="1000,2000">1,000–2,000 m</div><div>
+        <h3><span data-l="en">Montane zone</span><span data-l="fr" hidden>Étage montagnard</span></h3>
+        <p data-l="en">Dense conifer and mixed forest. Cool and wet, with deer, bears, owls and woodpeckers. Much of a mountain's rain and snow falls in this band.</p>
+        <p data-l="fr" hidden>Forêt dense de conifères et forêt mixte. Frais et humide, avec cerfs, ours, chouettes et pics. Une grande partie de la pluie et de la neige tombe dans cette bande.</p>
+      </div></div>
+      <div class="zone" style="--zc:#b79a5b"><div class="alt" data-range="0,1000">Below 1,000 m</div><div>
+        <h3><span data-l="en">Foothills (colline zone)</span><span data-l="fr" hidden>Étage collinéen</span></h3>
+        <p data-l="en">Broadleaf woods, farms and villages. Warmest and most human-shaped part of the mountain.</p>
+        <p data-l="fr" hidden>Forêts de feuillus, fermes et villages. C'est la partie la plus chaude de la montagne et la plus façonnée par l'homme.</p>
+      </div></div>
     </div>
     <div class="lapse">
-      <div><b>−6.5 °C</b><span>Average temperature drop for every 1,000 m you climb</span></div>
-      <div><b>≈ 33%</b><span>Air pressure on top of Everest compared with sea level</span></div>
-      <div><b>+ 10–12%</b><span>Extra UV radiation for every 1,000 m of height</span></div>
+      <div><b><span data-l="en">−6.5 °C</span><span data-l="fr" hidden>−6,5 °C</span></b><span data-l="en">Average temperature drop for every 1,000 m you climb</span><span data-l="fr" hidden>Baisse moyenne de la température tous les 1 000 m de montée</span></div>
+      <div><b><span data-l="en">≈ 33%</span><span data-l="fr" hidden>≈ 33 %</span></b><span data-l="en">Air pressure on top of Everest compared with sea level</span><span data-l="fr" hidden>Pression de l'air au sommet de l'Everest par rapport au niveau de la mer</span></div>
+      <div><b><span data-l="en">+ 10–12%</span><span data-l="fr" hidden>+ 10–12 %</span></b><span data-l="en">Extra UV radiation for every 1,000 m of height</span><span data-l="fr" hidden>D'ultraviolets en plus tous les 1 000 m d'altitude</span></div>
     </div>
   </div>
 </section>
@@ -401,16 +441,17 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
 <section id="animals">
   <div class="wrap">
     <div class="head">
-      <span class="eyebrow">04 · Built for altitude</span>
-      <h2>Animals of the mountains</h2>
-      <p>Thin air, deep cold, steep rock and short summers make mountains hard places to live. The animals that manage it have thick coats, big hearts and lungs, special blood, and feet that grip like climbing shoes.</p>
+      <span class="eyebrow"><span data-l="en">04 · Built for altitude</span><span data-l="fr" hidden>04 · Faits pour l'altitude</span></span>
+      <h2><span data-l="en">Animals of the mountains</span><span data-l="fr" hidden>Les animaux des montagnes</span></h2>
+      <p data-l="en">Thin air, deep cold, steep rock and short summers make mountains hard places to live. The animals that manage it have thick coats, big hearts and lungs, special blood, and feet that grip like climbing shoes.</p>
+      <p data-l="fr" hidden>L'air rare, le froid intense, la roche abrupte et les étés courts rendent la vie difficile en montagne. Les animaux qui y parviennent ont une fourrure épaisse, un grand cœur et de grands poumons, un sang particulier et des pattes qui adhèrent comme des chaussons d'escalade.</p>
     </div>
     <div class="chips" role="group" aria-label="Filter by region">
-      <button type="button" data-f="all" aria-pressed="true">All</button>
-      <button type="button" data-f="asia" aria-pressed="false">Asia</button>
-      <button type="button" data-f="americas" aria-pressed="false">The Americas</button>
+      <button type="button" data-f="all" aria-pressed="true"><span data-l="en">All</span><span data-l="fr" hidden>Tous</span></button>
+      <button type="button" data-f="asia" aria-pressed="false"><span data-l="en">Asia</span><span data-l="fr" hidden>Asie</span></button>
+      <button type="button" data-f="americas" aria-pressed="false"><span data-l="en">The Americas</span><span data-l="fr" hidden>Amériques</span></button>
       <button type="button" data-f="europe" aria-pressed="false">Europe</button>
-      <button type="button" data-f="africa" aria-pressed="false">Africa</button>
+      <button type="button" data-f="africa" aria-pressed="false"><span data-l="en">Africa</span><span data-l="fr" hidden>Afrique</span></button>
     </div>
     <div class="animals" id="animal-grid"></div>
   </div>
@@ -419,19 +460,52 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
 <section id="records">
   <div class="wrap">
     <div class="head">
-      <span class="eyebrow">05 · Superlatives</span>
-      <h2>Mountain records</h2>
-      <p>"Tallest" depends on how you measure. Everest is the highest above sea level, but it is not the tallest from base to peak, and not the farthest point from Earth's centre.</p>
+      <span class="eyebrow"><span data-l="en">05 · Superlatives</span><span data-l="fr" hidden>05 · Superlatifs</span></span>
+      <h2><span data-l="en">Mountain records</span><span data-l="fr" hidden>Les records des montagnes</span></h2>
+      <p data-l="en">"Tallest" depends on how you measure. Everest is the highest above sea level, but it is not the tallest from base to peak, and not the farthest point from Earth's centre.</p>
+      <p data-l="fr" hidden>« Le plus haut » dépend de la façon de mesurer. L'Everest est le plus élevé au-dessus du niveau de la mer, mais il n'est ni le plus grand de la base au sommet, ni le point le plus éloigné du centre de la Terre.</p>
     </div>
     <div class="records">
-      <div class="record"><span class="k">Highest above sea level</span><span class="v">Mount Everest</span><p><span class="mono" data-m="8849">8,849 m</span> on the Nepal–China border. Measured jointly by Nepal and China in 2020.</p></div>
-      <div class="record"><span class="k">Tallest base to peak</span><span class="v">Mauna Kea, Hawaiʻi</span><p>About <span class="mono" data-m="10210">10,210 m</span> from its base on the ocean floor. Only <span class="mono" data-m="4207">4,207 m</span> of it is above water.</p></div>
-      <div class="record"><span class="k">Farthest from Earth's centre</span><span class="v">Chimborazo, Ecuador</span><p>Earth bulges at the equator, so this <span class="mono" data-m="6263">6,263 m</span> volcano's summit is about 2 km farther from the planet's centre than Everest's.</p></div>
-      <div class="record"><span class="k">Longest range on land</span><span class="v">The Andes</span><p>About 7,000 km along the west of South America, through seven countries.</p></div>
-      <div class="record"><span class="k">Longest range overall</span><span class="v">Mid-ocean ridge</span><p>About 65,000 km of underwater mountains wind around the globe like the seam on a baseball.</p></div>
-      <div class="record"><span class="k">Highest unclimbed</span><span class="v">Gangkhar Puensum</span><p><span class="mono" data-m="7570">7,570 m</span> in Bhutan, where climbing peaks over 6,000 m has been banned out of respect for local beliefs.</p></div>
-      <div class="record"><span class="k">Greatest sheer drop</span><span class="v">Mount Thor, Canada</span><p>A cliff on Baffin Island with a vertical drop of about <span class="mono" data-m="1250">1,250 m</span>.</p></div>
-      <div class="record"><span class="k">Tallest in the solar system</span><span class="v">Olympus Mons, Mars</span><p>A shield volcano about <span class="mono" data-m="21900">21,900 m</span> high and roughly the size of Arizona.</p></div>
+      <div class="record">
+        <span class="k"><span data-l="en">Highest above sea level</span><span data-l="fr" hidden>Le plus haut au-dessus de la mer</span></span>
+        <span class="v"><span data-l="en">Mount Everest</span><span data-l="fr" hidden>Mont Everest</span></span>
+        <p><span class="mono" data-m="8849">8,849 m</span> <span data-l="en">on the Nepal–China border. Measured jointly by Nepal and China in 2020.</span><span data-l="fr" hidden>à la frontière entre le Népal et la Chine. Mesuré conjointement par le Népal et la Chine en 2020.</span></p>
+      </div>
+      <div class="record">
+        <span class="k"><span data-l="en">Tallest base to peak</span><span data-l="fr" hidden>Le plus grand de la base au sommet</span></span>
+        <span class="v"><span data-l="en">Mauna Kea, Hawaiʻi</span><span data-l="fr" hidden>Mauna Kea, Hawaï</span></span>
+        <p><span data-l="en">About</span><span data-l="fr" hidden>Environ</span> <span class="mono" data-m="10210">10,210 m</span> <span data-l="en">from its base on the ocean floor. Only</span><span data-l="fr" hidden>depuis sa base au fond de l'océan. Seuls</span> <span class="mono" data-m="4207">4,207 m</span> <span data-l="en">of it is above water.</span><span data-l="fr" hidden>dépassent de l'eau.</span></p>
+      </div>
+      <div class="record">
+        <span class="k"><span data-l="en">Farthest from Earth's centre</span><span data-l="fr" hidden>Le plus éloigné du centre de la Terre</span></span>
+        <span class="v"><span data-l="en">Chimborazo, Ecuador</span><span data-l="fr" hidden>Chimborazo, Équateur</span></span>
+        <p><span data-l="en">Earth bulges at the equator, so this</span><span data-l="fr" hidden>La Terre est renflée à l'équateur : le sommet de ce volcan de</span> <span class="mono" data-m="6263">6,263 m</span> <span data-l="en">volcano's summit is about 2 km farther from the planet's centre than Everest's.</span><span data-l="fr" hidden>est donc environ 2 km plus loin du centre de la planète que celui de l'Everest.</span></p>
+      </div>
+      <div class="record">
+        <span class="k"><span data-l="en">Longest range on land</span><span data-l="fr" hidden>Plus longue chaîne terrestre</span></span>
+        <span class="v"><span data-l="en">The Andes</span><span data-l="fr" hidden>Les Andes</span></span>
+        <p><span data-l="en">About 7,000 km along the west of South America, through seven countries.</span><span data-l="fr" hidden>Environ 7 000 km le long de la côte ouest de l'Amérique du Sud, à travers sept pays.</span></p>
+      </div>
+      <div class="record">
+        <span class="k"><span data-l="en">Longest range overall</span><span data-l="fr" hidden>Plus longue chaîne au total</span></span>
+        <span class="v"><span data-l="en">Mid-ocean ridge</span><span data-l="fr" hidden>La dorsale océanique</span></span>
+        <p><span data-l="en">About 65,000 km of underwater mountains wind around the globe like the seam on a baseball.</span><span data-l="fr" hidden>Environ 65 000 km de montagnes sous-marines font le tour du globe comme la couture d'une balle de baseball.</span></p>
+      </div>
+      <div class="record">
+        <span class="k"><span data-l="en">Highest unclimbed</span><span data-l="fr" hidden>Plus haut sommet invaincu</span></span>
+        <span class="v">Gangkhar Puensum</span>
+        <p><span class="mono" data-m="7570">7,570 m</span> <span data-l="en">in Bhutan, where climbing peaks over 6,000 m has been banned out of respect for local beliefs.</span><span data-l="fr" hidden>au Bhoutan, où l'ascension des sommets de plus de 6 000 m est interdite par respect pour les croyances locales.</span></p>
+      </div>
+      <div class="record">
+        <span class="k"><span data-l="en">Greatest sheer drop</span><span data-l="fr" hidden>Plus grand à-pic</span></span>
+        <span class="v"><span data-l="en">Mount Thor, Canada</span><span data-l="fr" hidden>Mont Thor, Canada</span></span>
+        <p><span data-l="en">A cliff on Baffin Island with a vertical drop of about</span><span data-l="fr" hidden>Une falaise de l'île de Baffin avec un à-pic d'environ</span> <span class="mono" data-m="1250">1,250 m</span>.</p>
+      </div>
+      <div class="record">
+        <span class="k"><span data-l="en">Tallest in the solar system</span><span data-l="fr" hidden>Le plus haut du système solaire</span></span>
+        <span class="v"><span data-l="en">Olympus Mons, Mars</span><span data-l="fr" hidden>Olympus Mons, Mars</span></span>
+        <p><span data-l="en">A shield volcano about</span><span data-l="fr" hidden>Un volcan bouclier d'environ</span> <span class="mono" data-m="21900">21,900 m</span> <span data-l="en">high and roughly the size of Arizona.</span><span data-l="fr" hidden>de haut, à peu près de la taille de l'Arizona.</span></p>
+      </div>
     </div>
   </div>
 </section>
@@ -439,15 +513,15 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
 <section id="facts">
   <div class="wrap">
     <div class="head">
-      <span class="eyebrow">06 · Did you know?</span>
-      <h2>Interesting mountain facts</h2>
+      <span class="eyebrow"><span data-l="en">06 · Did you know?</span><span data-l="fr" hidden>06 · Le saviez-vous ?</span></span>
+      <h2><span data-l="en">Interesting mountain facts</span><span data-l="fr" hidden>Faits étonnants sur les montagnes</span></h2>
     </div>
     <div class="fact-box">
-      <span class="eyebrow">Random fact</span>
+      <span class="eyebrow"><span data-l="en">Random fact</span><span data-l="fr" hidden>Un fait au hasard</span></span>
       <blockquote id="fact-text"></blockquote>
       <div class="row">
         <span class="count mono" id="fact-count"></span>
-        <button type="button" id="fact-next">Show another fact</button>
+        <button type="button" id="fact-next"><span data-l="en">Show another fact</span><span data-l="fr" hidden>Un autre fait</span></button>
       </div>
     </div>
     <ul class="facts-list" id="facts-list"></ul>
@@ -457,10 +531,10 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
 <section id="people">
   <div class="wrap">
     <div class="head">
-      <span class="eyebrow">07 · People and peaks</span>
-      <h2>Climbing, safety and the words climbers use</h2>
+      <span class="eyebrow"><span data-l="en">07 · People and peaks</span><span data-l="fr" hidden>07 · Les hommes et les sommets</span></span>
+      <h2><span data-l="en">Climbing, safety and the words climbers use</span><span data-l="fr" hidden>Alpinisme, sécurité et vocabulaire des grimpeurs</span></h2>
     </div>
-    <div class="two">
+    <div class="two" data-l="en">
       <div>
         <h3>Why high altitude is dangerous</h3>
         <p>As you climb, each breath carries less oxygen. Above about 2,500 m many people get <strong>acute mountain sickness</strong>: headaches, nausea, poor sleep. Climbing slowly and sleeping lower than you climb lets the body adapt by making more red blood cells.</p>
@@ -492,6 +566,38 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
         </dl>
       </div>
     </div>
+    <div class="two" data-l="fr" lang="fr" hidden>
+      <div>
+        <h3>Pourquoi la haute altitude est dangereuse</h3>
+        <p>En montant, chaque respiration apporte moins d'oxygène. Au-dessus d'environ 2 500 m, beaucoup de personnes souffrent du <strong>mal aigu des montagnes</strong> : maux de tête, nausées, mauvais sommeil. Monter lentement et dormir plus bas que l'altitude atteinte dans la journée permet au corps de s'adapter en produisant plus de globules rouges.</p>
+        <p>Les formes plus graves sont l'<strong>œdème pulmonaire de haute altitude</strong> (du liquide dans les poumons) et l'<strong>œdème cérébral de haute altitude</strong> (un gonflement du cerveau). Les deux peuvent tuer, et le principal remède est de redescendre immédiatement.</p>
+        <p>Parmi les autres dangers : avalanches, chutes de pierres, crevasses cachées sous la neige, tempêtes soudaines, gelures et coups de soleil dus à la lumière réfléchie par la neige.</p>
+        <h3 style="margin-top:.6rem">Dates clés</h3>
+        <p><strong>1786</strong> : Jacques Balmat et Michel-Gabriel Paccard atteignent le sommet du mont Blanc, souvent considéré comme la naissance de l'alpinisme.<br>
+        <strong>1950</strong> : l'Annapurna devient le premier sommet de plus de 8 000 m gravi.<br>
+        <strong>1953</strong> : Edmund Hillary et Tenzing Norgay se tiennent au sommet de l'Everest.<br>
+        <strong>1978</strong> : Reinhold Messner et Peter Habeler gravissent l'Everest sans oxygène en bouteille.<br>
+        <strong>1986</strong> : Messner devient le premier à gravir les quatorze sommets de plus de 8 000 m.<br>
+        <strong>2021</strong> : une équipe népalaise réussit la première ascension hivernale du K2, le dernier 8 000 encore invaincu en hiver.</p>
+      </div>
+      <div>
+        <h3>Le vocabulaire de la montagne</h3>
+        <dl class="gloss">
+          <dt>Sommet</dt><dd>Le point le plus haut d'une montagne.</dd>
+          <dt>Crête</dt><dd>Une ligne étroite et allongée qui relie des sommets.</dd>
+          <dt>Col</dt><dd>Le point le plus bas d'une crête entre deux sommets.</dd>
+          <dt>Arête</dt><dd>Une crête tranchante comme une lame, sculptée par deux glaciers.</dd>
+          <dt>Cirque</dt><dd>Un creux en forme de bol creusé par un glacier.</dd>
+          <dt>Couloir</dt><dd>Une ravine raide, souvent remplie de neige.</dd>
+          <dt>Massif</dt><dd>Un groupe compact de montagnes formant un seul bloc.</dd>
+          <dt>Proéminence</dt><dd>La hauteur dont un sommet domine le col le plus bas qui le relie à un sommet plus haut.</dd>
+          <dt>Limite des arbres</dt><dd>L'altitude au-delà de laquelle les arbres ne peuvent plus pousser.</dd>
+          <dt>Éboulis</dt><dd>Des pierres détachées entassées sur une pente.</dd>
+          <dt>Fourteener</dt><dd>Aux États-Unis, un sommet de plus de 14 000 pieds (4 267 m). Le Colorado en compte plus de 50.</dd>
+          <dt>Munro</dt><dd>Une montagne écossaise de plus de 3 000 pieds (914 m). Il y en a 282.</dd>
+        </dl>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -499,18 +605,19 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
   <div class="wrap">
     <div class="head">
       <span class="eyebrow">Sources</span>
-      <h2>References</h2>
-      <p>Where the facts and figures on this page come from. Links open the original source in a new tab.</p>
+      <h2><span data-l="en">References</span><span data-l="fr" hidden>Références</span></h2>
+      <p data-l="en">Where the facts and figures on this page come from. Links open the original source in a new tab.</p>
+      <p data-l="fr" hidden>D'où viennent les faits et les chiffres de cette page. Les liens ouvrent la source d'origine dans un nouvel onglet. La plupart des sources sont en anglais.</p>
     </div>
     <div class="refs">
       <div>
-        <h3>Peaks, heights and records</h3>
+        <h3><span data-l="en">Peaks, heights and records</span><span data-l="fr" hidden>Sommets, altitudes et records</span></h3>
         <ol>
-          <li><a href="https://en.wikipedia.org/wiki/Mount_Everest" target="_blank" rel="noopener">Mount Everest</a>, Wikipedia (incl. the 2020 China–Nepal survey of 8,848.86 m).</li>
-          <li><a href="https://en.wikipedia.org/wiki/Eight-thousander" target="_blank" rel="noopener">Eight-thousander</a>, Wikipedia (heights and first ascents of the 14 peaks).</li>
+          <li><a href="https://en.wikipedia.org/wiki/Mount_Everest" target="_blank" rel="noopener">Mount Everest</a>, Wikipedia <span data-l="en">(incl. the 2020 China–Nepal survey of 8,848.86 m).</span><span data-l="fr" hidden>(dont la mesure sino-népalaise de 2020 : 8 848,86 m).</span></li>
+          <li><a href="https://en.wikipedia.org/wiki/Eight-thousander" target="_blank" rel="noopener">Eight-thousander</a>, Wikipedia <span data-l="en">(heights and first ascents of the 14 peaks).</span><span data-l="fr" hidden>(altitudes et premières ascensions des 14 sommets).</span></li>
           <li><a href="https://en.wikipedia.org/wiki/Seven_Summits" target="_blank" rel="noopener">Seven Summits</a>, Wikipedia.</li>
           <li><a href="https://oceanservice.noaa.gov/facts/highestpoint.html" target="_blank" rel="noopener">What is the highest point on Earth as measured from Earth's center?</a>, NOAA National Ocean Service.</li>
-          <li><a href="https://en.wikipedia.org/wiki/Mauna_Kea" target="_blank" rel="noopener">Mauna Kea</a> and <a href="https://en.wikipedia.org/wiki/Chimborazo" target="_blank" rel="noopener">Chimborazo</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Mauna_Kea" target="_blank" rel="noopener">Mauna Kea</a> <span data-l="en">and</span><span data-l="fr" hidden>et</span> <a href="https://en.wikipedia.org/wiki/Chimborazo" target="_blank" rel="noopener">Chimborazo</a>, Wikipedia.</li>
           <li><a href="https://oceanexplorer.noaa.gov/facts/mid-ocean-ridge.html" target="_blank" rel="noopener">What is the mid-ocean ridge?</a>, NOAA Ocean Exploration.</li>
           <li><a href="https://en.wikipedia.org/wiki/Andes" target="_blank" rel="noopener">Andes</a>, Wikipedia.</li>
           <li><a href="https://en.wikipedia.org/wiki/Gangkhar_Puensum" target="_blank" rel="noopener">Gangkhar Puensum</a>, Wikipedia.</li>
@@ -519,44 +626,44 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
         </ol>
       </div>
       <div>
-        <h3>How mountains form and climate</h3>
+        <h3><span data-l="en">How mountains form and climate</span><span data-l="fr" hidden>Formation des montagnes et climat</span></h3>
         <ol start="11">
-          <li><a href="https://en.wikipedia.org/wiki/Mountain_formation" target="_blank" rel="noopener">Mountain formation</a> and <a href="https://en.wikipedia.org/wiki/Mountain" target="_blank" rel="noopener">Mountain</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Mountain_formation" target="_blank" rel="noopener">Mountain formation</a> <span data-l="en">and</span><span data-l="fr" hidden>et</span> <a href="https://en.wikipedia.org/wiki/Mountain" target="_blank" rel="noopener">Mountain</a>, Wikipedia.</li>
           <li><a href="https://en.wikipedia.org/wiki/Appalachian_Mountains" target="_blank" rel="noopener">Appalachian Mountains</a>, Wikipedia.</li>
           <li><a href="https://en.wikipedia.org/wiki/Altitudinal_zonation" target="_blank" rel="noopener">Altitudinal zonation</a>, Wikipedia.</li>
-          <li><a href="https://en.wikipedia.org/wiki/Lapse_rate" target="_blank" rel="noopener">Lapse rate</a>, Wikipedia (6.5 °C per 1,000 m).</li>
+          <li><a href="https://en.wikipedia.org/wiki/Lapse_rate" target="_blank" rel="noopener">Lapse rate</a>, Wikipedia <span data-l="en">(6.5 °C per 1,000 m).</span><span data-l="fr" hidden>(6,5 °C par 1 000 m).</span></li>
           <li><a href="https://en.wikipedia.org/wiki/Rain_shadow" target="_blank" rel="noopener">Rain shadow</a>, Wikipedia.</li>
-          <li><a href="https://www.who.int/news-room/questions-and-answers/item/radiation-the-ultraviolet-(uv)-index" target="_blank" rel="noopener">Radiation: The ultraviolet (UV) index</a>, World Health Organization.</li>
-          <li><a href="https://www.un.org/en/observances/mountain-day" target="_blank" rel="noopener">International Mountain Day</a>, United Nations.</li>
-          <li><a href="https://www.fao.org/mountain-partnership/en/" target="_blank" rel="noopener">Mountain Partnership</a>, FAO (mountain water, people and biodiversity).</li>
-          <li><a href="https://en.wikipedia.org/wiki/Mount_Kilimanjaro" target="_blank" rel="noopener">Mount Kilimanjaro</a>, Wikipedia (glacier retreat).</li>
+          <li><a href="https://www.who.int/news-room/questions-and-answers/item/radiation-the-ultraviolet-(uv)-index" target="_blank" rel="noopener">Radiation: The ultraviolet (UV) index</a>, <span data-l="en">World Health Organization.</span><span data-l="fr" hidden>Organisation mondiale de la santé.</span></li>
+          <li><a href="https://www.un.org/en/observances/mountain-day" target="_blank" rel="noopener">International Mountain Day</a>, <span data-l="en">United Nations.</span><span data-l="fr" hidden>Nations unies.</span></li>
+          <li><a href="https://www.fao.org/mountain-partnership/en/" target="_blank" rel="noopener">Mountain Partnership</a>, FAO <span data-l="en">(mountain water, people and biodiversity).</span><span data-l="fr" hidden>(eau, populations et biodiversité des montagnes).</span></li>
+          <li><a href="https://en.wikipedia.org/wiki/Mount_Kilimanjaro" target="_blank" rel="noopener">Mount Kilimanjaro</a>, Wikipedia <span data-l="en">(glacier retreat).</span><span data-l="fr" hidden>(recul des glaciers).</span></li>
         </ol>
       </div>
       <div>
-        <h3>Animals</h3>
+        <h3><span data-l="en">Animals</span><span data-l="fr" hidden>Animaux</span></h3>
         <ol start="20">
-          <li><a href="https://en.wikipedia.org/wiki/Snow_leopard" target="_blank" rel="noopener">Snow leopard</a>, <a href="https://en.wikipedia.org/wiki/Wild_yak" target="_blank" rel="noopener">Wild yak</a> and <a href="https://en.wikipedia.org/wiki/Giant_panda" target="_blank" rel="noopener">Giant panda</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Snow_leopard" target="_blank" rel="noopener">Snow leopard</a>, <a href="https://en.wikipedia.org/wiki/Wild_yak" target="_blank" rel="noopener">Wild yak</a> <span data-l="en">and</span><span data-l="fr" hidden>et</span> <a href="https://en.wikipedia.org/wiki/Giant_panda" target="_blank" rel="noopener">Giant panda</a>, Wikipedia.</li>
           <li><a href="https://en.wikipedia.org/wiki/Bar-headed_goose" target="_blank" rel="noopener">Bar-headed goose</a>, Wikipedia; Hawkes et al. (2011), "The trans-Himalayan flights of bar-headed geese", <i>PNAS</i> 108(23).</li>
-          <li><a href="https://en.wikipedia.org/wiki/Euophrys_omnisuperstes" target="_blank" rel="noopener">Euophrys omnisuperstes</a> (Himalayan jumping spider), Wikipedia.</li>
-          <li><a href="https://en.wikipedia.org/wiki/Mountain_goat" target="_blank" rel="noopener">Mountain goat</a> and <a href="https://en.wikipedia.org/wiki/American_pika" target="_blank" rel="noopener">American pika</a>, Wikipedia.</li>
-          <li><a href="https://en.wikipedia.org/wiki/Andean_condor" target="_blank" rel="noopener">Andean condor</a> and <a href="https://en.wikipedia.org/wiki/Vicu%C3%B1a" target="_blank" rel="noopener">Vicuña</a>, Wikipedia.</li>
-          <li><a href="https://en.wikipedia.org/wiki/Alpine_ibex" target="_blank" rel="noopener">Alpine ibex</a>, <a href="https://en.wikipedia.org/wiki/Alpine_marmot" target="_blank" rel="noopener">Alpine marmot</a> and <a href="https://en.wikipedia.org/wiki/Golden_eagle" target="_blank" rel="noopener">Golden eagle</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Euophrys_omnisuperstes" target="_blank" rel="noopener">Euophrys omnisuperstes</a> <span data-l="en">(Himalayan jumping spider)</span><span data-l="fr" hidden>(araignée sauteuse de l'Himalaya)</span>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Mountain_goat" target="_blank" rel="noopener">Mountain goat</a> <span data-l="en">and</span><span data-l="fr" hidden>et</span> <a href="https://en.wikipedia.org/wiki/American_pika" target="_blank" rel="noopener">American pika</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Andean_condor" target="_blank" rel="noopener">Andean condor</a> <span data-l="en">and</span><span data-l="fr" hidden>et</span> <a href="https://en.wikipedia.org/wiki/Vicu%C3%B1a" target="_blank" rel="noopener">Vicuña</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Alpine_ibex" target="_blank" rel="noopener">Alpine ibex</a>, <a href="https://en.wikipedia.org/wiki/Alpine_marmot" target="_blank" rel="noopener">Alpine marmot</a> <span data-l="en">and</span><span data-l="fr" hidden>et</span> <a href="https://en.wikipedia.org/wiki/Golden_eagle" target="_blank" rel="noopener">Golden eagle</a>, Wikipedia.</li>
           <li><a href="https://en.wikipedia.org/wiki/Mountain_gorilla" target="_blank" rel="noopener">Mountain gorilla</a>, Wikipedia.</li>
           <li><a href="https://en.wikipedia.org/wiki/Ethiopian_wolf" target="_blank" rel="noopener">Ethiopian wolf</a>, Wikipedia; <a href="https://www.ethiopianwolf.org/" target="_blank" rel="noopener">Ethiopian Wolf Conservation Programme</a>.</li>
         </ol>
       </div>
       <div>
-        <h3>Climbing and people</h3>
+        <h3><span data-l="en">Climbing and people</span><span data-l="fr" hidden>Alpinisme et populations</span></h3>
         <ol start="28">
-          <li><a href="https://en.wikipedia.org/wiki/Death_zone" target="_blank" rel="noopener">Death zone</a> and <a href="https://en.wikipedia.org/wiki/Altitude_sickness" target="_blank" rel="noopener">Altitude sickness</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Death_zone" target="_blank" rel="noopener">Death zone</a> <span data-l="en">and</span><span data-l="fr" hidden>et</span> <a href="https://en.wikipedia.org/wiki/Altitude_sickness" target="_blank" rel="noopener">Altitude sickness</a>, Wikipedia.</li>
           <li><a href="https://en.wikipedia.org/wiki/Reinhold_Messner" target="_blank" rel="noopener">Reinhold Messner</a>, Wikipedia.</li>
-          <li><a href="https://en.wikipedia.org/wiki/K2" target="_blank" rel="noopener">K2</a>, Wikipedia (first winter ascent, 2021).</li>
+          <li><a href="https://en.wikipedia.org/wiki/K2" target="_blank" rel="noopener">K2</a>, Wikipedia <span data-l="en">(first winter ascent, 2021).</span><span data-l="fr" hidden>(première ascension hivernale, 2021).</span></li>
           <li>Huerta-Sánchez et al. (2014), <a href="https://doi.org/10.1038/nature13408" target="_blank" rel="noopener">"Altitude adaptation in Tibetans caused by introgression of Denisovan-like DNA"</a>, <i>Nature</i> 512.</li>
-          <li><a href="https://en.wikipedia.org/wiki/Fourteener" target="_blank" rel="noopener">Fourteener</a> and <a href="https://en.wikipedia.org/wiki/Munro" target="_blank" rel="noopener">Munro</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Fourteener" target="_blank" rel="noopener">Fourteener</a> <span data-l="en">and</span><span data-l="fr" hidden>et</span> <a href="https://en.wikipedia.org/wiki/Munro" target="_blank" rel="noopener">Munro</a>, Wikipedia.</li>
         </ol>
       </div>
     </div>
-    <p class="refs-note">Heights and population numbers change as new surveys are made, and different sources sometimes round them differently. Links last checked November 2026.</p>
+    <p class="refs-note"><span data-l="en">Heights and population numbers change as new surveys are made, and different sources sometimes round them differently. Links last checked November 2026.</span><span data-l="fr" hidden>Les altitudes et les effectifs de population changent au fil des nouvelles mesures, et les sources les arrondissent parfois différemment. Liens vérifiés en novembre 2026.</span></p>
   </div>
 </section>
 
@@ -564,61 +671,76 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
 
 <footer>
   <div class="wrap">
-    <span>Above the Treeline · A field guide to mountains</span>
-    <span>Heights are commonly cited survey figures and may vary slightly between sources.</span>
+    <span><span data-l="en">Above the Treeline · A field guide to mountains</span><span data-l="fr" hidden>Au-dessus des arbres · Un guide des montagnes</span></span>
+    <span><span data-l="en">Heights are commonly cited survey figures and may vary slightly between sources.</span><span data-l="fr" hidden>Les altitudes sont les chiffres couramment cités et peuvent varier légèrement selon les sources.</span></span>
   </div>
 </footer>
 
 <script>
 (function () {
-  var unit = "m";
+  var unit = "m", lang = "en";
   try { unit = localStorage.getItem("unit") || "m"; } catch (e) {}
+  try {
+    lang = localStorage.getItem("lang") || ((navigator.language || "").toLowerCase().indexOf("fr") === 0 ? "fr" : "en");
+  } catch (e) {}
 
-  function fmt(m) {
+  /* Pick the text for the current language from an {en, fr} pair or a plain string */
+  function t(v) { return v && typeof v === "object" ? v[lang] : v; }
+  function num(m) {
     var v = unit === "ft" ? Math.round(m * 3.28084) : m;
-    return v.toLocaleString("en-US") + " " + unit;
+    return v.toLocaleString(lang === "fr" ? "fr-FR" : "en-US");
   }
+  function ulab() { return unit === "ft" ? (lang === "fr" ? "pi" : "ft") : "m"; }
+  function fmt(m) { return num(m) + " " + ulab(); }
 
-  /* ---------- Peaks ---------- */
+  var UI = {
+    lives: { en: function (a, b) { return "Lives at " + a + " – " + b; }, fr: function (a, b) { return "Vit entre " + a + " et " + b; } },
+    adapt: { en: "Adaptation:", fr: "Adaptation :" },
+    factN: { en: function (i, n) { return "Fact " + i + " of " + n; }, fr: function (i, n) { return "Fait " + i + " sur " + n; } },
+    death: { en: "— — death zone starts at ", fr: "— — début de la zone de la mort à " },
+    below: { en: "Below ", fr: "Moins de " },
+    title: { en: "Above the Treeline", fr: "Au-dessus des arbres" }
+  };
+
+  /* ---------- Peaks: [name, short label, location, height m, first ascent, note] ---------- */
   var top10 = [
-    ["Mount Everest", "Himalaya · Nepal / China", 8849, "1953 · Edmund Hillary & Tenzing Norgay", "Called Sagarmāthā in Nepali and Chomolungma in Tibetan."],
-    ["K2", "Karakoram · Pakistan / China", 8611, "1954 · Lino Lacedelli & Achille Compagnoni", "Known as the \"Savage Mountain\" for its difficulty."],
-    ["Kangchenjunga", "Himalaya · Nepal / India", 8586, "1955 · Joe Brown & George Band", "Its name means \"Five Treasures of the Snow\"."],
-    ["Lhotse", "Himalaya · Nepal / China", 8516, "1956 · Fritz Luchsinger & Ernst Reiss", "Joined to Everest by the South Col."],
-    ["Makalu", "Himalaya · Nepal / China", 8485, "1955 · Lionel Terray & Jean Couzy", "A sharp four-sided pyramid."],
-    ["Cho Oyu", "Himalaya · Nepal / China", 8188, "1954 · Herbert Tichy, Joseph Jöchler & Pasang Dawa Lama", "Often called the easiest 8,000 m peak."],
-    ["Dhaulagiri I", "Himalaya · Nepal", 8167, "1960 · Swiss-Austrian expedition", "Name means \"White Mountain\"."],
-    ["Manaslu", "Himalaya · Nepal", 8163, "1956 · Toshio Imanishi & Gyalzen Norbu", "\"Mountain of the Spirit\"."],
-    ["Nanga Parbat", "Himalaya · Pakistan", 8126, "1953 · Hermann Buhl (solo summit push)", "Has one of the biggest mountain faces on Earth."],
-    ["Annapurna I", "Himalaya · Nepal", 8091, "1950 · Maurice Herzog & Louis Lachenal", "First 8,000 m peak ever climbed."]
+    [{en:"Mount Everest",fr:"Mont Everest"}, "Everest", {en:"Himalaya · Nepal / China",fr:"Himalaya · Népal / Chine"}, 8849, {en:"1953 · Edmund Hillary & Tenzing Norgay",fr:"1953 · Edmund Hillary et Tenzing Norgay"}, {en:"Called Sagarmāthā in Nepali and Chomolungma in Tibetan.",fr:"Appelé Sagarmāthā en népalais et Chomolungma en tibétain."}],
+    ["K2", "K2", {en:"Karakoram · Pakistan / China",fr:"Karakoram · Pakistan / Chine"}, 8611, {en:"1954 · Lino Lacedelli & Achille Compagnoni",fr:"1954 · Lino Lacedelli et Achille Compagnoni"}, {en:"Known as the \"Savage Mountain\" for its difficulty.",fr:"Surnommé la « montagne sauvage » pour sa difficulté."}],
+    ["Kangchenjunga", "Kangchenjunga", {en:"Himalaya · Nepal / India",fr:"Himalaya · Népal / Inde"}, 8586, {en:"1955 · Joe Brown & George Band",fr:"1955 · Joe Brown et George Band"}, {en:"Its name means \"Five Treasures of the Snow\".",fr:"Son nom signifie « les cinq trésors des neiges »."}],
+    ["Lhotse", "Lhotse", {en:"Himalaya · Nepal / China",fr:"Himalaya · Népal / Chine"}, 8516, {en:"1956 · Fritz Luchsinger & Ernst Reiss",fr:"1956 · Fritz Luchsinger et Ernst Reiss"}, {en:"Joined to Everest by the South Col.",fr:"Relié à l'Everest par le col Sud."}],
+    ["Makalu", "Makalu", {en:"Himalaya · Nepal / China",fr:"Himalaya · Népal / Chine"}, 8485, {en:"1955 · Lionel Terray & Jean Couzy",fr:"1955 · Lionel Terray et Jean Couzy"}, {en:"A sharp four-sided pyramid.",fr:"Une pyramide acérée à quatre faces."}],
+    ["Cho Oyu", "Cho Oyu", {en:"Himalaya · Nepal / China",fr:"Himalaya · Népal / Chine"}, 8188, {en:"1954 · Herbert Tichy, Joseph Jöchler & Pasang Dawa Lama",fr:"1954 · Herbert Tichy, Joseph Jöchler et Pasang Dawa Lama"}, {en:"Often called the easiest 8,000 m peak.",fr:"Souvent considéré comme le plus facile des 8 000."}],
+    ["Dhaulagiri I", "Dhaulagiri", {en:"Himalaya · Nepal",fr:"Himalaya · Népal"}, 8167, {en:"1960 · Swiss-Austrian expedition",fr:"1960 · expédition suisso-autrichienne"}, {en:"Name means \"White Mountain\".",fr:"Son nom signifie « montagne blanche »."}],
+    ["Manaslu", "Manaslu", {en:"Himalaya · Nepal",fr:"Himalaya · Népal"}, 8163, {en:"1956 · Toshio Imanishi & Gyalzen Norbu",fr:"1956 · Toshio Imanishi et Gyalzen Norbu"}, {en:"\"Mountain of the Spirit\".",fr:"« La montagne de l'esprit »."}],
+    ["Nanga Parbat", "Nanga Parbat", "Himalaya · Pakistan", 8126, {en:"1953 · Hermann Buhl (solo summit push)",fr:"1953 · Hermann Buhl (assaut final en solitaire)"}, {en:"Has one of the biggest mountain faces on Earth.",fr:"Possède l'une des plus grandes parois du monde."}],
+    ["Annapurna I", "Annapurna", {en:"Himalaya · Nepal",fr:"Himalaya · Népal"}, 8091, {en:"1950 · Maurice Herzog & Louis Lachenal",fr:"1950 · Maurice Herzog et Louis Lachenal"}, {en:"First 8,000 m peak ever climbed.",fr:"Premier sommet de plus de 8 000 m jamais gravi."}]
   ];
   var seven = [
-    ["Mount Everest", "Asia · Nepal / China", 8849, "1953", "Highest point in Asia and the world."],
-    ["Aconcagua", "South America · Argentina", 6961, "1897 · Matthias Zurbriggen", "Highest mountain outside Asia."],
-    ["Denali", "North America · Alaska, USA", 6190, "1913 · Hudson Stuck's party", "Rises about 5,500 m from its base, more than Everest does."],
-    ["Kilimanjaro", "Africa · Tanzania", 5895, "1889 · Hans Meyer & Ludwig Purtscheller", "Tallest free-standing mountain on land; you can hike it without ropes."],
-    ["Mount Elbrus", "Europe · Russia (Caucasus)", 5642, "1874 · British party (west summit)", "A dormant volcano with two summits."],
-    ["Mount Vinson", "Antarctica", 4892, "1966 · American expedition", "Only seen from the air until 1958."],
-    ["Puncak Jaya", "Oceania · Indonesia (New Guinea)", 4884, "1962 · Heinrich Harrer's party", "Some lists use Mount Kosciuszko in Australia (2,228 m) instead."]
+    [{en:"Mount Everest",fr:"Mont Everest"}, "", {en:"Asia · Nepal / China",fr:"Asie · Népal / Chine"}, 8849, "1953", {en:"Highest point in Asia and the world.",fr:"Point culminant de l'Asie et du monde."}],
+    ["Aconcagua", "", {en:"South America · Argentina",fr:"Amérique du Sud · Argentine"}, 6961, "1897 · Matthias Zurbriggen", {en:"Highest mountain outside Asia.",fr:"La plus haute montagne hors d'Asie."}],
+    ["Denali", "", {en:"North America · Alaska, USA",fr:"Amérique du Nord · Alaska, États-Unis"}, 6190, {en:"1913 · Hudson Stuck's party",fr:"1913 · cordée de Hudson Stuck"}, {en:"Rises about 5,500 m from its base, more than Everest does.",fr:"S'élève d'environ 5 500 m depuis sa base, plus que l'Everest."}],
+    [{en:"Kilimanjaro",fr:"Kilimandjaro"}, "", {en:"Africa · Tanzania",fr:"Afrique · Tanzanie"}, 5895, {en:"1889 · Hans Meyer & Ludwig Purtscheller",fr:"1889 · Hans Meyer et Ludwig Purtscheller"}, {en:"Tallest free-standing mountain on land; you can hike it without ropes.",fr:"La plus haute montagne isolée sur terre ; on peut la gravir à pied, sans cordes."}],
+    [{en:"Mount Elbrus",fr:"Mont Elbrouz"}, "", {en:"Europe · Russia (Caucasus)",fr:"Europe · Russie (Caucase)"}, 5642, {en:"1874 · British party (west summit)",fr:"1874 · cordée britannique (sommet ouest)"}, {en:"A dormant volcano with two summits.",fr:"Un volcan endormi à deux sommets."}],
+    [{en:"Mount Vinson",fr:"Mont Vinson"}, "", {en:"Antarctica",fr:"Antarctique"}, 4892, {en:"1966 · American expedition",fr:"1966 · expédition américaine"}, {en:"Discovered from the air in 1958.",fr:"Découvert depuis les airs en 1958."}],
+    ["Puncak Jaya", "", {en:"Oceania · Indonesia (New Guinea)",fr:"Océanie · Indonésie (Nouvelle-Guinée)"}, 4884, {en:"1962 · Heinrich Harrer's party",fr:"1962 · cordée de Heinrich Harrer"}, {en:"Some lists use Mount Kosciuszko in Australia (2,228 m) instead.",fr:"Certaines listes retiennent plutôt le mont Kosciuszko, en Australie (2 228 m)."}]
   ];
   var famous = [
-    ["Matterhorn", "Alps · Switzerland / Italy", 4478, "1865 · Edward Whymper's party", "Its near-perfect pyramid is one of the most photographed peaks."],
-    ["Mont Blanc", "Alps · France / Italy", 4806, "1786 · Balmat & Paccard", "Highest peak in the Alps and western Europe."],
-    ["Mount Fuji", "Japan", 3776, "Climbed since ancient times", "A sacred volcano; last erupted in 1707."],
-    ["Mount Rainier", "Cascades · Washington, USA", 4392, "1870 · Hazard Stevens & P. B. Van Trump", "Carries more glacier ice than any other peak in the lower 48 states."],
-    ["Mount Kenya", "Kenya", 5199, "1899 · Halford Mackinder's party", "Second-highest mountain in Africa."],
-    ["Table Mountain", "Cape Town, South Africa", 1085, "Ancient", "Its flat top is often covered by a \"tablecloth\" of cloud."],
-    ["Mount Whitney", "Sierra Nevada · California, USA", 4421, "1873 · three local fishermen", "Highest point in the lower 48; Death Valley's low point is under 150 km away."],
-    ["Ben Nevis", "Scotland, UK", 1345, "1771 · James Robertson", "Highest point in the British Isles."]
+    [{en:"Matterhorn",fr:"Cervin"}, "", {en:"Alps · Switzerland / Italy",fr:"Alpes · Suisse / Italie"}, 4478, {en:"1865 · Edward Whymper's party",fr:"1865 · cordée d'Edward Whymper"}, {en:"Its near-perfect pyramid is one of the most photographed peaks.",fr:"Sa pyramide presque parfaite en fait l'un des sommets les plus photographiés."}],
+    ["Mont Blanc", "", {en:"Alps · France / Italy",fr:"Alpes · France / Italie"}, 4806, {en:"1786 · Balmat & Paccard",fr:"1786 · Balmat et Paccard"}, {en:"Highest peak in the Alps and western Europe.",fr:"Point culminant des Alpes et d'Europe occidentale."}],
+    [{en:"Mount Fuji",fr:"Mont Fuji"}, "", {en:"Japan",fr:"Japon"}, 3776, {en:"Climbed since ancient times",fr:"Gravi depuis l'Antiquité"}, {en:"A sacred volcano; last erupted in 1707.",fr:"Un volcan sacré ; sa dernière éruption date de 1707."}],
+    [{en:"Mount Rainier",fr:"Mont Rainier"}, "", {en:"Cascades · Washington, USA",fr:"Cascades · Washington, États-Unis"}, 4392, {en:"1870 · Hazard Stevens & P. B. Van Trump",fr:"1870 · Hazard Stevens et P. B. Van Trump"}, {en:"Carries more glacier ice than any other peak in the lower 48 states.",fr:"Porte plus de glace que tout autre sommet des 48 États contigus."}],
+    [{en:"Mount Kenya",fr:"Mont Kenya"}, "", "Kenya", 5199, {en:"1899 · Halford Mackinder's party",fr:"1899 · cordée de Halford Mackinder"}, {en:"Second-highest mountain in Africa.",fr:"Deuxième plus haute montagne d'Afrique."}],
+    [{en:"Table Mountain",fr:"Montagne de la Table"}, "", {en:"Cape Town, South Africa",fr:"Le Cap, Afrique du Sud"}, 1085, {en:"Ancient",fr:"Depuis l'Antiquité"}, {en:"Its flat top is often covered by a \"tablecloth\" of cloud.",fr:"Son sommet plat est souvent couvert d'une « nappe » de nuages."}],
+    [{en:"Mount Whitney",fr:"Mont Whitney"}, "", {en:"Sierra Nevada · California, USA",fr:"Sierra Nevada · Californie, États-Unis"}, 4421, {en:"1873 · three local fishermen",fr:"1873 · trois pêcheurs de la région"}, {en:"Highest point in the lower 48; Death Valley's low point is under 150 km away.",fr:"Point culminant des 48 États contigus ; le point le plus bas de la vallée de la Mort est à moins de 150 km."}],
+    ["Ben Nevis", "", {en:"Scotland, UK",fr:"Écosse, Royaume-Uni"}, 1345, "1771 · James Robertson", {en:"Highest point in the British Isles.",fr:"Point culminant des îles Britanniques."}]
   ];
   var lists = { "tab-8k": top10, "tab-7s": seven, "tab-fam": famous };
   var current = "tab-8k";
 
   function renderTable() {
-    var rows = lists[current].map(function (p) {
-      return "<tr><td><span class=\"name\">" + p[0] + "</span><span class=\"note\">" + p[4] + "</span></td><td>" + p[1] + "</td><td class=\"num\">" + fmt(p[2]) + "</td><td>" + p[3] + "</td></tr>";
-    });
-    document.querySelector("#peak-table tbody").innerHTML = rows.join("");
+    document.querySelector("#peak-table tbody").innerHTML = lists[current].map(function (p) {
+      return "<tr><td><span class=\"name\">" + t(p[0]) + "</span><span class=\"note\">" + t(p[5]) + "</span></td><td>" + t(p[2]) + "</td><td class=\"num\">" + fmt(p[3]) + "</td><td>" + t(p[4]) + "</td></tr>";
+    }).join("");
   }
 
   function renderChart() {
@@ -630,19 +752,19 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
     for (var g = 0; g <= 9000; g += 1500) {
       out += "<line class=\"grid\" x1=\"" + L + "\" x2=\"" + (W - R) + "\" y1=\"" + y(g) + "\" y2=\"" + y(g) + "\"/>";
       var gl = unit === "ft" ? Math.round(g * 3.28084 / 100) * 100 : g;
-      out += "<text x=\"" + (L - 8) + "\" y=\"" + (y(g) + 4) + "\" text-anchor=\"end\">" + gl.toLocaleString("en-US") + "</text>";
+      out += "<text x=\"" + (L - 8) + "\" y=\"" + (y(g) + 4) + "\" text-anchor=\"end\">" + gl.toLocaleString(lang === "fr" ? "fr-FR" : "en-US") + "</text>";
     }
-    out += "<text x=\"" + (L - 8) + "\" y=\"" + (T - 4) + "\" text-anchor=\"end\">" + unit + "</text>";
+    out += "<text x=\"" + (L - 8) + "\" y=\"" + (T - 4) + "\" text-anchor=\"end\">" + ulab() + "</text>";
     var n = top10.length, slot = iw / n, bw = slot * 0.62;
     top10.forEach(function (p, i) {
-      var x = L + i * slot + (slot - bw) / 2, yy = y(p[2]);
-      out += "<g class=\"peak\"><title>" + p[0] + ": " + fmt(p[2]) + "</title>" +
+      var x = L + i * slot + (slot - bw) / 2, yy = y(p[3]);
+      out += "<g class=\"peak\"><title>" + t(p[0]) + (lang === "fr" ? " : " : ": ") + fmt(p[3]) + "</title>" +
         "<rect class=\"bar" + (i === 0 ? " top" : "") + "\" x=\"" + x + "\" y=\"" + yy + "\" width=\"" + bw + "\" height=\"" + (T + ih - yy) + "\" rx=\"3\"/>" +
-        "<text x=\"" + (x + bw / 2) + "\" y=\"" + (yy - 6) + "\" text-anchor=\"middle\">" + fmt(p[2]).replace(" " + unit, "") + "</text>" +
-        "<text class=\"lbl\" x=\"" + (x + bw / 2) + "\" y=\"" + (H - B + 20) + "\" text-anchor=\"middle\">" + p[0].replace("Mount ", "").replace(" I", "") + "</text></g>";
+        "<text x=\"" + (x + bw / 2) + "\" y=\"" + (yy - 6) + "\" text-anchor=\"middle\">" + num(p[3]) + "</text>" +
+        "<text class=\"lbl\" x=\"" + (x + bw / 2) + "\" y=\"" + (H - B + 20) + "\" text-anchor=\"middle\">" + p[1] + "</text></g>";
     });
     out += "<line class=\"death\" x1=\"" + L + "\" x2=\"" + (W - R) + "\" y1=\"" + y(8000) + "\" y2=\"" + y(8000) + "\"/>";
-    out += "<text class=\"death-t\" x=\"" + (W - R) + "\" y=\"" + (H - 8) + "\" text-anchor=\"end\">— — death zone starts at " + fmt(8000) + "</text>";
+    out += "<text class=\"death-t\" x=\"" + (W - R) + "\" y=\"" + (H - 8) + "\" text-anchor=\"end\">" + t(UI.death) + fmt(8000) + "</text>";
     svg.innerHTML = out;
   }
 
@@ -656,60 +778,73 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
 
   /* ---------- Animals ---------- */
   var animals = [
-    { n: "Snow leopard", s: "Panthera uncia", r: "asia", where: "Himalaya, Tibetan Plateau, Central Asia", lo: 3000, hi: 5500,
-      d: "A ghostly grey cat that hunts blue sheep and ibex on cliffs. It cannot roar, and only a few thousand remain in the wild.",
-      a: "Its thick tail is almost as long as its body. It uses it for balance and wraps it round its face like a scarf." },
-    { n: "Yak", s: "Bos mutus (wild)", r: "asia", where: "Tibetan Plateau, Himalaya", lo: 3000, hi: 6000,
-      d: "Wild yaks are huge, shaggy cattle. Domestic yaks carry loads and give milk, wool and fuel to Himalayan people.",
-      a: "Large lungs and heart, and blood that holds oxygen well. Long skirt-like hair keeps out the cold." },
-    { n: "Bar-headed goose", s: "Anser indicus", r: "asia", where: "Migrates across the Himalaya", lo: 0, hi: 7300,
-      d: "Flies over the world's highest mountains twice a year between Central Asia and India.",
-      a: "Special haemoglobin grabs oxygen from thin air, and extra-dense blood vessels feed its wing muscles." },
-    { n: "Giant panda", s: "Ailuropoda melanoleuca", r: "asia", where: "Mountain bamboo forests of central China", lo: 1200, hi: 3100,
-      d: "Lives in cool, misty mountain forests and spends up to 14 hours a day eating bamboo.",
-      a: "A thick, oily coat sheds rain and snow; an enlarged wrist bone works like a thumb for gripping stalks." },
-    { n: "Himalayan jumping spider", s: "Euophrys omnisuperstes", r: "asia", where: "Everest region", lo: 5000, hi: 6700,
-      d: "One of the highest permanent residents on Earth. Its species name means \"standing above everything\".",
-      a: "Lives on frozen insects blown up the mountain by the wind." },
-    { n: "Mountain goat", s: "Oreamnos americanus", r: "americas", where: "Rocky Mountains, Cascades, Alaska", lo: 1500, hi: 4000,
-      d: "Not a true goat; it is more closely related to antelopes. Walks calmly along ledges a few centimetres wide.",
-      a: "Hooves have hard outer rims and soft, grippy pads in the middle, like built-in climbing shoes." },
-    { n: "American pika", s: "Ochotona princeps", r: "americas", where: "Rocky Mountains, Sierra Nevada", lo: 2500, hi: 4000,
-      d: "A tiny relative of rabbits that lives in rock piles and squeaks warnings to neighbours.",
-      a: "It does not hibernate. All summer it gathers \"haypiles\" of plants to eat through the winter." },
-    { n: "Andean condor", s: "Vultur gryphus", r: "americas", where: "Andes", lo: 0, hi: 5000,
-      d: "One of the largest flying birds, with a wingspan up to 3.3 m. It can live more than 50 years.",
-      a: "Soars on rising warm air and mountain winds; one tracked bird flew over 170 km without flapping." },
-    { n: "Vicuña", s: "Vicugna vicugna", r: "americas", where: "High Andes of Peru, Bolivia, Chile, Argentina", lo: 3200, hi: 4800,
-      d: "A slender wild relative of the llama. Its wool is among the finest and most expensive in the world.",
-      a: "Blood rich in oxygen-carrying cells, and teeth that keep growing to cope with tough grass." },
-    { n: "Alpine ibex", s: "Capra ibex", r: "europe", where: "European Alps", lo: 1800, hi: 3300,
-      d: "Males grow curved horns up to a metre long. Hunted nearly to extinction by 1820, now recovered to tens of thousands.",
-      a: "So sure-footed that ibex in Italy climb near-vertical dam walls to lick salt off the stones." },
-    { n: "Alpine marmot", s: "Marmota marmota", r: "europe", where: "Alps, Carpathians, Pyrenees", lo: 800, hi: 3200,
-      d: "A large, chubby ground squirrel that whistles loudly when it spots an eagle.",
-      a: "Hibernates in family groups for up to six months, huddling together to save warmth." },
-    { n: "Golden eagle", s: "Aquila chrysaetos", r: "europe", where: "Mountains across the Northern Hemisphere", lo: 0, hi: 4000,
-      d: "A powerful hunter of marmots, hares and even young goats. Pairs may use the same cliff nest for decades.",
-      a: "Eyesight several times sharper than a human's, and dives at well over 200 km/h." },
-    { n: "Mountain gorilla", s: "Gorilla beringei beringei", r: "africa", where: "Virunga volcanoes and Bwindi (Uganda, Rwanda, DR Congo)", lo: 1400, hi: 3800,
-      d: "Only about 1,000 live in the wild, but their numbers are slowly growing thanks to protection.",
-      a: "Longer, thicker fur than lowland gorillas keeps them warm in cold, misty cloud forests." },
-    { n: "Ethiopian wolf", s: "Canis simensis", r: "africa", where: "Ethiopian Highlands", lo: 3000, hi: 4500,
-      d: "Africa's rarest carnivore, with fewer than 500 left. It hunts giant mole-rats on high moorland.",
-      a: "Hunts alone in open grassland by day, using its long snout to dig rodents from burrows." }
+    { n: {en:"Snow leopard",fr:"Panthère des neiges"}, s: "Panthera uncia", r: "asia", lo: 3000, hi: 5500,
+      where: {en:"Himalaya, Tibetan Plateau, Central Asia",fr:"Himalaya, plateau tibétain, Asie centrale"},
+      d: {en:"A ghostly grey cat that hunts blue sheep and ibex on cliffs. It cannot roar, and only a few thousand remain in the wild.",fr:"Un félin gris et discret qui chasse les bharals et les bouquetins sur les falaises. Il ne peut pas rugir, et il n'en reste que quelques milliers à l'état sauvage."},
+      a: {en:"Its thick tail is almost as long as its body. It uses it for balance and wraps it round its face like a scarf.",fr:"Sa queue épaisse est presque aussi longue que son corps. Elle l'aide à garder l'équilibre, et il s'en couvre le museau comme d'une écharpe."} },
+    { n: {en:"Yak",fr:"Yack"}, s: {en:"Bos mutus (wild)",fr:"Bos mutus (sauvage)"}, r: "asia", lo: 3000, hi: 6000,
+      where: {en:"Tibetan Plateau, Himalaya",fr:"Plateau tibétain, Himalaya"},
+      d: {en:"Wild yaks are huge, shaggy cattle. Domestic yaks carry loads and give milk, wool and fuel to Himalayan people.",fr:"Les yacks sauvages sont d'énormes bovins hirsutes. Les yacks domestiques portent des charges et fournissent lait, laine et combustible aux peuples de l'Himalaya."},
+      a: {en:"Large lungs and heart, and blood that holds oxygen well. Long skirt-like hair keeps out the cold.",fr:"De grands poumons, un grand cœur et un sang qui retient bien l'oxygène. De longs poils tombant comme une jupe le protègent du froid."} },
+    { n: {en:"Bar-headed goose",fr:"Oie à tête barrée"}, s: "Anser indicus", r: "asia", lo: 0, hi: 7300,
+      where: {en:"Migrates across the Himalaya",fr:"Migre au-dessus de l'Himalaya"},
+      d: {en:"Flies over the world's highest mountains twice a year between Central Asia and India.",fr:"Survole les plus hautes montagnes du monde deux fois par an, entre l'Asie centrale et l'Inde."},
+      a: {en:"Special haemoglobin grabs oxygen from thin air, and extra-dense blood vessels feed its wing muscles.",fr:"Une hémoglobine particulière capte l'oxygène de l'air rare, et des vaisseaux sanguins très denses irriguent les muscles de ses ailes."} },
+    { n: {en:"Giant panda",fr:"Panda géant"}, s: "Ailuropoda melanoleuca", r: "asia", lo: 1200, hi: 3100,
+      where: {en:"Mountain bamboo forests of central China",fr:"Forêts de bambous des montagnes du centre de la Chine"},
+      d: {en:"Lives in cool, misty mountain forests and spends up to 14 hours a day eating bamboo.",fr:"Vit dans des forêts de montagne fraîches et brumeuses, et passe jusqu'à 14 heures par jour à manger du bambou."},
+      a: {en:"A thick, oily coat sheds rain and snow; an enlarged wrist bone works like a thumb for gripping stalks.",fr:"Un pelage épais et gras repousse la pluie et la neige ; un os du poignet agrandi lui sert de pouce pour saisir les tiges."} },
+    { n: {en:"Himalayan jumping spider",fr:"Araignée sauteuse de l'Himalaya"}, s: "Euophrys omnisuperstes", r: "asia", lo: 5000, hi: 6700,
+      where: {en:"Everest region",fr:"Région de l'Everest"},
+      d: {en:"One of the highest permanent residents on Earth. Its species name means \"standing above everything\".",fr:"L'un des habitants permanents les plus hauts de la planète. Son nom d'espèce signifie « au-dessus de tout »."},
+      a: {en:"Lives on frozen insects blown up the mountain by the wind.",fr:"Elle se nourrit d'insectes gelés que le vent emporte jusqu'en haut de la montagne."} },
+    { n: {en:"Mountain goat",fr:"Chèvre des montagnes"}, s: "Oreamnos americanus", r: "americas", lo: 1500, hi: 4000,
+      where: {en:"Rocky Mountains, Cascades, Alaska",fr:"Rocheuses, Cascades, Alaska"},
+      d: {en:"Not a true goat: it has a genus of its own among the goat-antelopes. Walks calmly along ledges a few centimetres wide.",fr:"Ce n'est pas une vraie chèvre : elle forme son propre genre parmi les caprinés. Elle marche tranquillement sur des corniches de quelques centimètres de large."},
+      a: {en:"Hooves have hard outer rims and soft, grippy pads in the middle, like built-in climbing shoes.",fr:"Ses sabots ont un bord extérieur dur et un coussinet souple et adhérent au centre, comme des chaussons d'escalade intégrés."} },
+    { n: {en:"American pika",fr:"Pika d'Amérique"}, s: "Ochotona princeps", r: "americas", lo: 2500, hi: 4000,
+      where: {en:"Rocky Mountains, Sierra Nevada",fr:"Rocheuses, Sierra Nevada"},
+      d: {en:"A tiny relative of rabbits that lives in rock piles and squeaks warnings to neighbours.",fr:"Un petit cousin du lapin qui vit dans les éboulis et pousse de petits cris pour alerter ses voisins."},
+      a: {en:"It does not hibernate. All summer it gathers \"haypiles\" of plants to eat through the winter.",fr:"Il n'hiberne pas. Tout l'été, il amasse des « meules de foin » de plantes pour se nourrir pendant l'hiver."} },
+    { n: {en:"Andean condor",fr:"Condor des Andes"}, s: "Vultur gryphus", r: "americas", lo: 0, hi: 5000,
+      where: {en:"Andes",fr:"Andes"},
+      d: {en:"One of the largest flying birds, with a wingspan up to 3.3 m. It can live more than 50 years.",fr:"L'un des plus grands oiseaux volants, avec une envergure pouvant atteindre 3,3 m. Il peut vivre plus de 50 ans."},
+      a: {en:"Soars on rising warm air and mountain winds; one tracked bird flew over 170 km without flapping.",fr:"Il plane sur l'air chaud ascendant et les vents de montagne ; un oiseau suivi a parcouru plus de 170 km sans battre des ailes."} },
+    { n: {en:"Vicuña",fr:"Vigogne"}, s: "Vicugna vicugna", r: "americas", lo: 3200, hi: 4800,
+      where: {en:"High Andes of Peru, Bolivia, Chile, Argentina",fr:"Hautes Andes du Pérou, de Bolivie, du Chili et d'Argentine"},
+      d: {en:"A slender wild relative of the llama. Its wool is among the finest and most expensive in the world.",fr:"Une cousine sauvage et élancée du lama. Sa laine compte parmi les plus fines et les plus chères du monde."},
+      a: {en:"Blood rich in oxygen-carrying cells, and teeth that keep growing to cope with tough grass.",fr:"Un sang riche en cellules qui transportent l'oxygène, et des dents qui poussent sans cesse pour venir à bout des herbes coriaces."} },
+    { n: {en:"Alpine ibex",fr:"Bouquetin des Alpes"}, s: "Capra ibex", r: "europe", lo: 1800, hi: 3300,
+      where: {en:"European Alps",fr:"Alpes européennes"},
+      d: {en:"Males grow curved horns up to a metre long. Hunted nearly to extinction by 1820, now recovered to tens of thousands.",fr:"Les mâles portent des cornes recourbées pouvant atteindre un mètre. Presque exterminé vers 1820, il compte aujourd'hui des dizaines de milliers d'individus."},
+      a: {en:"So sure-footed that ibex in Italy climb near-vertical dam walls to lick salt off the stones.",fr:"Il a le pied si sûr qu'en Italie, des bouquetins escaladent des murs de barrage presque verticaux pour lécher le sel sur les pierres."} },
+    { n: {en:"Alpine marmot",fr:"Marmotte des Alpes"}, s: "Marmota marmota", r: "europe", lo: 800, hi: 3200,
+      where: {en:"Alps, Carpathians, Pyrenees",fr:"Alpes, Carpates, Pyrénées"},
+      d: {en:"A large, chubby ground squirrel that whistles loudly when it spots an eagle.",fr:"Un gros écureuil terrestre dodu qui siffle très fort quand il repère un aigle."},
+      a: {en:"Hibernates in family groups for up to six months, huddling together to save warmth.",fr:"Elle hiberne en famille jusqu'à six mois, blottie contre les autres pour garder la chaleur."} },
+    { n: {en:"Golden eagle",fr:"Aigle royal"}, s: "Aquila chrysaetos", r: "europe", lo: 0, hi: 4000,
+      where: {en:"Mountains across the Northern Hemisphere",fr:"Montagnes de tout l'hémisphère Nord"},
+      d: {en:"A powerful hunter of marmots, hares and even young goats. Pairs may use the same cliff nest for decades.",fr:"Un puissant chasseur de marmottes, de lièvres et même de jeunes chèvres. Un couple peut utiliser le même nid de falaise pendant des décennies."},
+      a: {en:"Eyesight several times sharper than a human's, and dives at well over 200 km/h.",fr:"Une vue plusieurs fois plus perçante que celle de l'homme, et des piqués à bien plus de 200 km/h."} },
+    { n: {en:"Mountain gorilla",fr:"Gorille des montagnes"}, s: "Gorilla beringei beringei", r: "africa", lo: 1400, hi: 3800,
+      where: {en:"Virunga volcanoes and Bwindi (Uganda, Rwanda, DR Congo)",fr:"Volcans des Virunga et Bwindi (Ouganda, Rwanda, RD Congo)"},
+      d: {en:"Only about 1,000 live in the wild, but their numbers are slowly growing thanks to protection.",fr:"Il n'en reste qu'environ 1 000 à l'état sauvage, mais leur nombre augmente lentement grâce à leur protection."},
+      a: {en:"Longer, thicker fur than lowland gorillas keeps them warm in cold, misty cloud forests.",fr:"Une fourrure plus longue et plus épaisse que celle des gorilles de plaine les garde au chaud dans les forêts de nuages froides et brumeuses."} },
+    { n: {en:"Ethiopian wolf",fr:"Loup d'Éthiopie"}, s: "Canis simensis", r: "africa", lo: 3000, hi: 4500,
+      where: {en:"Ethiopian Highlands",fr:"Hauts plateaux d'Éthiopie"},
+      d: {en:"Africa's rarest carnivore, with fewer than 500 left. It hunts giant mole-rats on high moorland.",fr:"Le carnivore le plus rare d'Afrique, avec moins de 500 individus. Il chasse les rats-taupes géants sur les landes d'altitude."},
+      a: {en:"Hunts alone in open grassland by day, using its long snout to dig rodents from burrows.",fr:"Il chasse seul, de jour, en terrain découvert, et fouille les terriers des rongeurs avec son long museau."} }
   ];
   var filter = "all";
   function renderAnimals() {
-    var grid = document.getElementById("animal-grid");
     var top = 7500;
-    grid.innerHTML = animals.filter(function (a) { return filter === "all" || a.r === filter; }).map(function (a) {
+    document.getElementById("animal-grid").innerHTML = animals.filter(function (a) { return filter === "all" || a.r === filter; }).map(function (a) {
       var left = (a.lo / top * 100).toFixed(1), width = ((Math.min(a.hi, top) - a.lo) / top * 100).toFixed(1);
-      return "<article class=\"animal\"><h3>" + a.n + "</h3><p class=\"sci\">" + a.s + "</p>" +
-        "<div class=\"meta\"><span>" + a.where + "</span></div>" +
+      return "<article class=\"animal\"><h3>" + t(a.n) + "</h3><p class=\"sci\">" + t(a.s) + "</p>" +
+        "<div class=\"meta\"><span>" + t(a.where) + "</span></div>" +
         "<div><div class=\"elev\" aria-hidden=\"true\"><i style=\"left:" + left + "%;width:" + width + "%\"></i></div>" +
-        "<div class=\"elev-l\"><span>Lives at " + fmt(a.lo) + " – " + fmt(a.hi) + "</span></div></div>" +
-        "<p>" + a.d + "</p><p class=\"adapt\"><b>Adaptation:</b> " + a.a + "</p></article>";
+        "<div class=\"elev-l\">" + t(UI.lives)(fmt(a.lo), fmt(a.hi)) + "</div></div>" +
+        "<p>" + t(a.d) + "</p><p class=\"adapt\"><b>" + t(UI.adapt) + "</b> " + t(a.a) + "</p></article>";
     }).join("");
   }
   document.querySelectorAll(".chips button").forEach(function (b) {
@@ -722,55 +857,64 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
 
   /* ---------- Facts ---------- */
   var facts = [
-    "The rock at the top of Everest is marine limestone. It formed on the floor of an ancient sea and holds fossils of sea creatures.",
-    "The Himalaya are still rising by a few millimetres every year as India keeps pushing into Asia.",
-    "Mountains supply between 60% and 80% of the world's fresh water. That is why they are called the world's water towers.",
-    "About 1 in 10 people on Earth live in mountain areas.",
-    "On Everest's summit each breath carries about a third of the oxygen it would at sea level.",
-    "Water boils at only about 70 °C on top of Everest, so cooking pasta up there takes much longer.",
-    "Mountains make their own weather. Moist air rises up one side, cools and drops rain, leaving a dry \"rain shadow\" on the other side.",
-    "The Atacama Desert, one of the driest places on Earth, lies in the rain shadow of the Andes.",
-    "The longest mountain range on Earth is almost entirely under the ocean: the mid-ocean ridge, about 65,000 km long.",
-    "Mount Everest gained its English name in 1865, after George Everest, a surveyor who never saw it and asked that it not be named after him.",
-    "Denali rises about 5,500 m from its base, which is more vertical relief than Everest has from its own base on the Tibetan Plateau.",
-    "Glaciers on mountains can flow like very slow rivers, moving anywhere from a few centimetres to tens of metres a day.",
-    "Kilimanjaro has glaciers almost on the equator, but they have shrunk by more than 80% since the early 1900s.",
-    "The Alps are home to about 14 million people and get over 100 million visitors each year.",
-    "Lightning strikes mountain tops much more often than flat ground, which is why climbers try to be off summits by early afternoon.",
-    "Above the treeline, many alpine plants grow for decades but stay only a few centimetres tall.",
-    "Mountains cover about a quarter of Earth's land surface and hold about a quarter of all land plant and animal species.",
-    "The Appalachians are older than the Atlantic Ocean. They formed when the continents were joined in the supercontinent Pangaea.",
-    "Sherpa people often have genes that help their bodies use oxygen better at altitude, inherited partly from ancient Denisovans.",
-    "Everest's official height changed from 8,848 m to 8,849 m after a joint China–Nepal survey in 2020."
+    {en:"The rock at the top of Everest is marine limestone. It formed on the floor of an ancient sea and holds fossils of sea creatures.",fr:"La roche au sommet de l'Everest est un calcaire marin. Elle s'est formée au fond d'une ancienne mer et contient des fossiles d'animaux marins."},
+    {en:"The Himalaya are still rising by a few millimetres every year as India keeps pushing into Asia.",fr:"L'Himalaya s'élève encore de quelques millimètres par an, car l'Inde continue de pousser contre l'Asie."},
+    {en:"Mountains supply between 60% and 80% of the world's fresh water. That is why they are called the world's water towers.",fr:"Les montagnes fournissent entre 60 % et 80 % de l'eau douce du monde. C'est pourquoi on les appelle les châteaux d'eau de la planète."},
+    {en:"About 1 in 10 people on Earth live in mountain areas.",fr:"Environ une personne sur dix sur Terre vit en montagne."},
+    {en:"On Everest's summit each breath carries about a third of the oxygen it would at sea level.",fr:"Au sommet de l'Everest, chaque respiration apporte environ un tiers de l'oxygène qu'elle apporterait au niveau de la mer."},
+    {en:"Water boils at only about 70 °C on top of Everest, so cooking pasta up there takes much longer.",fr:"Au sommet de l'Everest, l'eau bout à environ 70 °C seulement : y cuire des pâtes prend donc beaucoup plus de temps."},
+    {en:"Mountains make their own weather. Moist air rises up one side, cools and drops rain, leaving a dry \"rain shadow\" on the other side.",fr:"Les montagnes créent leur propre météo. L'air humide monte sur un versant, se refroidit et donne de la pluie, laissant une « ombre pluviométrique » sèche de l'autre côté."},
+    {en:"The Atacama Desert, one of the driest places on Earth, lies in the rain shadow of the Andes.",fr:"Le désert d'Atacama, l'un des lieux les plus secs de la Terre, se trouve dans l'ombre pluviométrique des Andes."},
+    {en:"The longest mountain range on Earth is almost entirely under the ocean: the mid-ocean ridge, about 65,000 km long.",fr:"La plus longue chaîne de montagnes de la Terre est presque entièrement sous l'océan : la dorsale océanique, longue d'environ 65 000 km."},
+    {en:"Mount Everest gained its English name in 1865, after George Everest, a surveyor who never saw it and asked that it not be named after him.",fr:"L'Everest a reçu son nom anglais en 1865, en l'honneur de George Everest, un géomètre qui ne l'a jamais vu et avait demandé qu'on ne lui donne pas son nom."},
+    {en:"Denali rises about 5,500 m from its base, which is more vertical relief than Everest has from its own base on the Tibetan Plateau.",fr:"Le Denali s'élève d'environ 5 500 m depuis sa base, soit plus de dénivelé que l'Everest depuis sa propre base sur le plateau tibétain."},
+    {en:"Glaciers on mountains can flow like very slow rivers, moving anywhere from a few centimetres to tens of metres a day.",fr:"Les glaciers de montagne s'écoulent comme des rivières très lentes, avançant de quelques centimètres à plusieurs dizaines de mètres par jour."},
+    {en:"Kilimanjaro has glaciers almost on the equator, but they have shrunk by more than 80% since the early 1900s.",fr:"Le Kilimandjaro porte des glaciers presque sur l'équateur, mais ils ont perdu plus de 80 % de leur surface depuis le début des années 1900."},
+    {en:"The Alps are home to about 14 million people and get over 100 million visitors each year.",fr:"Les Alpes comptent environ 14 millions d'habitants et reçoivent plus de 100 millions de visiteurs chaque année."},
+    {en:"Lightning strikes mountain tops much more often than flat ground, which is why climbers try to be off summits by early afternoon.",fr:"La foudre frappe les sommets bien plus souvent que les terrains plats ; c'est pourquoi les alpinistes essaient d'en redescendre avant le début de l'après-midi."},
+    {en:"Above the treeline, many alpine plants grow for decades but stay only a few centimetres tall.",fr:"Au-dessus de la limite des arbres, beaucoup de plantes alpines vivent des décennies tout en ne mesurant que quelques centimètres."},
+    {en:"Mountains cover about a quarter of Earth's land surface and hold about a quarter of all land plant and animal species.",fr:"Les montagnes couvrent environ un quart des terres émergées et abritent environ un quart des espèces terrestres de plantes et d'animaux."},
+    {en:"The Appalachians are older than the Atlantic Ocean. They formed when the continents were joined in the supercontinent Pangaea.",fr:"Les Appalaches sont plus anciennes que l'océan Atlantique. Elles se sont formées quand les continents étaient réunis dans le supercontinent Pangée."},
+    {en:"Sherpa people often have genes that help their bodies use oxygen better at altitude, inherited partly from ancient Denisovans.",fr:"Beaucoup de Sherpas portent des gènes qui aident leur corps à mieux utiliser l'oxygène en altitude, hérités en partie des anciens Dénisoviens."},
+    {en:"Everest's official height changed from 8,848 m to 8,849 m after a joint China–Nepal survey in 2020.",fr:"L'altitude officielle de l'Everest est passée de 8 848 m à 8 849 m après une mesure conjointe de la Chine et du Népal en 2020."}
   ];
   var fi = Math.floor(Math.random() * facts.length);
   function showFact() {
-    document.getElementById("fact-text").textContent = facts[fi];
-    document.getElementById("fact-count").textContent = "Fact " + (fi + 1) + " of " + facts.length;
+    document.getElementById("fact-text").textContent = t(facts[fi]);
+    document.getElementById("fact-count").textContent = t(UI.factN)(fi + 1, facts.length);
+  }
+  function renderFactList() {
+    document.getElementById("facts-list").innerHTML = facts.slice(0, 10).map(function (f) { return "<li>" + t(f) + "</li>"; }).join("");
   }
   document.getElementById("fact-next").addEventListener("click", function () {
     var n; do { n = Math.floor(Math.random() * facts.length); } while (n === fi && facts.length > 1);
     fi = n; showFact();
   });
-  document.getElementById("facts-list").innerHTML = facts.slice(0, 10).map(function (f) { return "<li>" + f + "</li>"; }).join("");
 
-  /* ---------- Units ---------- */
-  function renderUnits() {
+  /* ---------- Render everything for the current language + unit ---------- */
+  function renderAll() {
+    document.documentElement.lang = lang;
+    document.title = t(UI.title);
+    document.querySelectorAll("[data-l]").forEach(function (el) { el.hidden = el.dataset.l !== lang; });
+    document.getElementById("l-en").setAttribute("aria-pressed", lang === "en" ? "true" : "false");
+    document.getElementById("l-fr").setAttribute("aria-pressed", lang === "fr" ? "true" : "false");
     document.getElementById("u-m").setAttribute("aria-pressed", unit === "m" ? "true" : "false");
     document.getElementById("u-ft").setAttribute("aria-pressed", unit === "ft" ? "true" : "false");
     document.querySelectorAll("[data-m]").forEach(function (el) { el.textContent = fmt(+el.dataset.m); });
     document.querySelectorAll("[data-range]").forEach(function (el) {
       var r = el.dataset.range.split(",").map(Number);
-      el.textContent = r[0] === 0 ? "Below " + fmt(r[1]) : r[1] >= 9000 ? fmt(r[0]) + " +" : fmt(r[0]).replace(" " + unit, "") + "–" + fmt(r[1]);
+      el.textContent = r[0] === 0 ? t(UI.below) + fmt(r[1]) : r[1] >= 9000 ? fmt(r[0]) + " +" : num(r[0]) + "–" + fmt(r[1]);
     });
-    renderChart(); renderTable(); renderAnimals();
+    renderChart(); renderTable(); renderAnimals(); renderFactList(); showFact();
   }
-  function setUnit(u) { unit = u; try { localStorage.setItem("unit", u); } catch (e) {} renderUnits(); }
+  function setUnit(u) { unit = u; try { localStorage.setItem("unit", u); } catch (e) {} renderAll(); }
+  function setLang(l) { lang = l; try { localStorage.setItem("lang", l); } catch (e) {} renderAll(); }
   document.getElementById("u-m").addEventListener("click", function () { setUnit("m"); });
   document.getElementById("u-ft").addEventListener("click", function () { setUnit("ft"); });
+  document.getElementById("l-en").addEventListener("click", function () { setLang("en"); });
+  document.getElementById("l-fr").addEventListener("click", function () { setLang("fr"); });
 
-  showFact();
-  renderUnits();
+  renderAll();
 })();
 </script>
 </body>
