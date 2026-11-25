@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Above the Treeline</title>
+<meta name="description" content="A field guide to the world's mountains: the highest peaks, how mountains form, the life zones on their slopes, the animals that live there, and the records they hold.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a field guide that climbs — a layered-ridge hero, then sections stacked like altitude bands, each on a single readable column with wide tables and grids where data calls for it. */
+:root {
+  --bg: #f3f5f6;
+  --surface: #ffffff;
+  --ink: #18232d;
+  --muted: #56636f;
+  --line: #d5dce1;
+  --accent: #d0602e;      /* alpenglow */
+  --lichen: #5d7f3a;
+  --ridge-1: #c9d4dc;
+  --ridge-2: #94a8b8;
+  --ridge-3: #5c768b;
+  --ridge-4: #2e4659;
+  --sky-top: #e6edf2;
+  --sky-bot: #f8e6d9;
+  --snow: #ffffff;
+  --chip: #e7ecef;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "Literata", Georgia, "Times New Roman", serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f161c; --surface: #16212a; --ink: #e8eef2; --muted: #9aa9b5; --line: #2a3a47;
+    --accent: #f08a55; --lichen: #9cc26d;
+    --ridge-1: #24384a; --ridge-2: #1c2d3c; --ridge-3: #15232f; --ridge-4: #0d161e;
+    --sky-top: #0b1218; --sky-bot: #3a2a2a; --snow: #dfe8ee; --chip: #1f2d38;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f161c; --surface: #16212a; --ink: #e8eef2; --muted: #9aa9b5; --line: #2a3a47;
+  --accent: #f08a55; --lichen: #9cc26d;
+  --ridge-1: #24384a; --ridge-2: #1c2d3c; --ridge-3: #15232f; --ridge-4: #0d161e;
+  --sky-top: #0b1218; --sky-bot: #3a2a2a; --snow: #dfe8ee; --chip: #1f2d38;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--body); font-size: 17px; line-height: 1.65;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+img, svg { max-width: 100%; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; line-height: 1.1; margin: 0; }
+h2 { font-size: clamp(1.9rem, 4.5vw, 2.8rem); font-weight: 800; letter-spacing: -0.01em; }
+h3 { font-size: 1.25rem; font-weight: 700; }
+p { margin: 0; }
+.wrap {
+  max-width: 1120px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.prose { max-width: 66ch; }
+.eyebrow {
+  font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--accent); display: block; margin-bottom: 0.6rem;
+}
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* NAV */
+nav.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+nav.top .wrap { display: flex; align-items: center; gap: 1rem; padding-block: 0.6rem; }
+nav.top .brand { font-family: var(--display); font-weight: 800; text-decoration: none; color: var(--ink); white-space: nowrap; }
+nav.top ul { list-style: none; display: flex; gap: 0.2rem; margin: 0 0 0 auto; padding: 0; overflow-x: auto; scrollbar-width: none; }
+nav.top ul::-webkit-scrollbar { display: none; }
+nav.top a.n { font-family: var(--display); font-size: 0.92rem; text-decoration: none; color: var(--muted); padding: 0.35rem 0.6rem; border-radius: 6px; white-space: nowrap; }
+nav.top a.n:hover { color: var(--ink); background: var(--chip); }
+.unit-toggle { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; flex-shrink: 0; }
+.unit-toggle button { font: 500 0.78rem var(--mono); border: 0; background: transparent; color: var(--muted); padding: 0.3rem 0.65rem; cursor: pointer; }
+.unit-toggle button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+
+/* HERO */
+.hero { position: relative; background: linear-gradient(180deg, var(--sky-top), var(--sky-bot)); overflow: hidden; }
+.hero .wrap { position: relative; z-index: 2; padding-block: clamp(3rem, 8vw, 5.5rem) 0; }
+.hero h1 {
+  font-size: clamp(3rem, 11vw, 7.5rem); font-weight: 800; letter-spacing: -0.03em; line-height: 0.92;
+  font-variation-settings: "opsz" 96;
+}
+.hero h1 span { color: var(--accent); }
+.hero .lede { margin-top: 1.25rem; font-size: clamp(1.05rem, 2.2vw, 1.3rem); max-width: 40ch; color: var(--ink); }
+.hero .stats { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin-top: 1.8rem; }
+.hero .stats div { display: flex; flex-direction: column; }
+.hero .stats b { font: 500 1.35rem var(--mono); font-variant-numeric: tabular-nums; }
+.hero .stats small { font-size: 0.82rem; color: var(--muted); }
+.ridges { display: block; width: 100%; height: auto; margin-top: -1rem; }
+.ridges .r1 { fill: var(--ridge-1); } .ridges .r2 { fill: var(--ridge-2); }
+.ridges .r3 { fill: var(--ridge-3); } .ridges .r4 { fill: var(--ridge-4); }
+.ridges .snow { fill: var(--snow); opacity: 0.9; }
+.ridges .sun { fill: var(--accent); opacity: 0.85; }
+
+section { padding-block: clamp(3.5rem, 7vw, 5.5rem); border-top: 1px solid var(--line); }
+section:first-of-type { border-top: 0; }
+.head { display: flex; flex-direction: column; gap: 0.9rem; margin-bottom: 2.2rem; }
+.head p { color: var(--muted); max-width: 62ch; }
+
+/* PEAKS */
+.chart-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem 1rem 0.75rem; }
+.chart-wrap svg { display: block; min-width: 680px; width: 100%; height: auto; }
+.chart-wrap text { font-family: var(--mono); fill: var(--muted); font-size: 11px; }
+.chart-wrap .lbl { fill: var(--ink); font-family: var(--display); font-size: 12px; font-weight: 600; }
+.chart-wrap .grid { stroke: var(--line); stroke-width: 1; }
+.chart-wrap .bar { fill: var(--ridge-3); transition: fill .15s; }
+.chart-wrap .bar.top { fill: var(--accent); }
+.chart-wrap g.peak:hover .bar { fill: var(--accent); }
+.chart-wrap .death { stroke: var(--accent); stroke-dasharray: 5 4; stroke-width: 1.5; }
+.chart-wrap .death-t { fill: var(--accent); font-size: 11px; }
+.chart-note { font-size: 0.85rem; color: var(--muted); margin-top: 0.75rem; }
+
+.tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 2.5rem 0 1rem; }
+.tabs button, .chips button {
+  font: 600 0.9rem var(--display); background: var(--chip); color: var(--ink);
+  border: 1px solid transparent; border-radius: 999px; padding: 0.45rem 0.95rem; cursor: pointer;
+}
+.tabs button[aria-selected="true"], .chips button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 0.95rem; }
+th, td { text-align: left; padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 500 0.72rem var(--mono); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); background: var(--bg); }
+tr:last-child td { border-bottom: 0; }
+td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+th.num { text-align: right; }
+td .name { font-family: var(--display); font-weight: 700; }
+td .note { display: block; color: var(--muted); font-size: 0.86rem; }
+
+/* TYPES */
+.types { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; }
+.type { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.7rem; min-width: 0; }
+.type svg { width: 100%; height: 110px; display: block; }
+.type svg .ground { fill: var(--ridge-2); } .type svg .rock { fill: var(--ridge-3); } .type svg .hot { fill: var(--accent); }
+.type svg .layer { fill: none; stroke: var(--bg); stroke-width: 2; opacity: .8; } .type svg .arrow { stroke: var(--ink); stroke-width: 2; fill: none; } .type svg .arrowhead { fill: var(--ink); }
+.type svg .sky { fill: var(--bg); }
+.type p { font-size: 0.95rem; }
+.type .ex { font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 0.6rem; margin-top: auto; }
+.type .ex b { font-family: var(--mono); font-weight: 500; font-size: 0.72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink); margin-right: .4rem; }
+
+/* ZONES */
+.zones { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.zone { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 1.25rem; padding: 1.1rem 1.25rem; border-bottom: 1px solid var(--line); position: relative; }
+.zone:last-child { border-bottom: 0; }
+.zone::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--zc); }
+.zone .alt { font-family: var(--mono); font-size: 0.85rem; color: var(--muted); padding-left: 0.4rem; }
+.zone h3 { margin-bottom: 0.25rem; }
+.zone p { font-size: 0.95rem; }
+@media (max-width: 560px) { .zone { grid-template-columns: minmax(0, 1fr); gap: 0.3rem; } }
+.lapse { margin-top: 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+.lapse div { padding: 1rem 1.1rem; background: var(--chip); border-radius: 8px; }
+.lapse b { display: block; font: 500 1.5rem var(--mono); font-variant-numeric: tabular-nums; }
+.lapse span { font-size: 0.88rem; color: var(--muted); }
+
+/* ANIMALS */
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+.animals { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+.animal { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; min-width: 0; }
+.animal .sci { font-style: italic; color: var(--muted); font-size: 0.9rem; margin-top: -0.3rem; }
+.animal .meta { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.animal .meta span { font: 500 0.72rem var(--mono); background: var(--chip); padding: 0.2rem 0.5rem; border-radius: 4px; color: var(--muted); }
+.animal p { font-size: 0.95rem; }
+.animal .adapt { font-size: 0.88rem; border-top: 1px solid var(--line); padding-top: 0.6rem; margin-top: auto; }
+.animal .adapt b { color: var(--lichen); font-family: var(--display); }
+.animal .elev { height: 6px; background: var(--chip); border-radius: 3px; position: relative; }
+.animal .elev i { position: absolute; top: 0; bottom: 0; background: var(--lichen); border-radius: 3px; }
+.animal .elev-l { font: 400 0.72rem var(--mono); color: var(--muted); display: flex; justify-content: space-between; }
+
+/* RECORDS */
+.records { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.record { background: var(--surface); padding: 1.3rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.record .k { font: 500 0.72rem var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.record .v { font: 700 1.55rem var(--display); line-height: 1.15; }
+.record p { font-size: 0.92rem; color: var(--muted); }
+
+/* FACTS */
+.fact-box { background: var(--ridge-4); color: #f3f5f6; border-radius: 12px; padding: clamp(1.5rem, 4vw, 2.5rem); display: grid; gap: 1.2rem; }
+.fact-box .eyebrow { color: #f5a67f; }
+.fact-box blockquote { margin: 0; font: 600 clamp(1.25rem, 3vw, 1.8rem)/1.3 var(--display); min-height: 4.5em; text-wrap: balance; }
+.fact-box .row { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; justify-content: space-between; }
+.fact-box button { font: 700 0.95rem var(--display); background: #f08a55; color: #1a1410; border: 0; border-radius: 999px; padding: 0.65rem 1.2rem; cursor: pointer; }
+.fact-box button:hover { background: #f5a67f; }
+.fact-box .count { font: 400 0.8rem var(--mono); color: #b8c6d1; }
+.facts-list { margin-top: 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem 2rem; padding: 0; list-style: none; }
+.facts-list li { padding-left: 1.4rem; position: relative; font-size: 0.95rem; }
+.facts-list li::before { content: "▲"; position: absolute; left: 0; top: 0.1em; color: var(--accent); font-size: 0.7rem; }
+
+/* SAFETY / PEOPLE */
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+.two > div { min-width: 0; display: flex; flex-direction: column; gap: 0.9rem; }
+.two p { font-size: 0.97rem; }
+dl.gloss { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.5rem 1.2rem; margin: 0; }
+dl.gloss dt { font-family: var(--display); font-weight: 700; }
+dl.gloss dd { margin: 0; font-size: 0.95rem; color: var(--muted); }
+@media (max-width: 480px) { dl.gloss { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; } dl.gloss dd { margin-bottom: 0.6rem; } }
+
+footer { border-top: 1px solid var(--line); padding-block: 2.5rem; color: var(--muted); font-size: 0.85rem; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content: space-between; }
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="Sections">
+  <div class="wrap">
+    <a class="brand" href="#top">Above the Treeline</a>
+    <ul>
+      <li><a class="n" href="#peaks">Peaks</a></li>
+      <li><a class="n" href="#types">Types</a></li>
+      <li><a class="n" href="#zones">Life zones</a></li>
+      <li><a class="n" href="#animals">Animals</a></li>
+      <li><a class="n" href="#records">Records</a></li>
+      <li><a class="n" href="#facts">Facts</a></li>
+      <li><a class="n" href="#people">Climbing</a></li>
+    </ul>
+    <div class="unit-toggle" role="group" aria-label="Units">
+      <button type="button" id="u-m" aria-pressed="true">m</button>
+      <button type="button" id="u-ft" aria-pressed="false">ft</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <span class="eyebrow">A field guide to the high places</span>
+    <h1>Above the<br><span>Treeline</span></h1>
+    <p class="lede">Mountains cover about a quarter of Earth's land. They make their own weather, store most of our fresh water, and shelter animals found nowhere else. Here is what makes them tick.</p>
+    <div class="stats">
+      <div><b class="mono" data-m="8849">8,849 m</b><small>Height of Everest</small></div>
+      <div><b class="mono">14</b><small>Peaks over 8,000 m</small></div>
+      <div><b class="mono">60–80%</b><small>Of fresh water starts in mountains</small></div>
+      <div><b class="mono">Dec 11</b><small>International Mountain Day</small></div>
+    </div>
+  </div>
+  <svg class="ridges" viewBox="0 0 1440 300" preserveAspectRatio="none" aria-hidden="true">
+    <circle class="sun" cx="1130" cy="120" r="46"/>
+    <path class="r1" d="M0 190 L120 120 L210 160 L330 70 L430 140 L560 90 L690 150 L820 60 L960 135 L1080 95 L1200 150 L1320 85 L1440 130 V300 H0Z"/>
+    <path class="r2" d="M0 220 L90 175 L200 205 L310 130 L400 190 L520 150 L640 205 L760 120 L880 190 L1010 140 L1130 200 L1260 150 L1440 195 V300 H0Z"/>
+    <path class="r3" d="M0 255 L140 200 L260 240 L380 175 L470 225 L600 160 L700 215 L790 185 L930 240 L1060 180 L1190 235 L1320 195 L1440 230 V300 H0Z"/>
+    <path class="snow" d="M600 160 L575 178 L590 176 L603 186 L615 174 L628 177Z"/>
+    <path class="snow" d="M380 175 L360 189 L373 188 L384 196 L394 186 L404 188Z"/>
+    <path class="r4" d="M0 280 L180 250 L320 272 L470 245 L620 270 L780 240 L950 268 L1100 250 L1260 275 L1440 255 V300 H0Z"/>
+  </svg>
+</header>
+
+<main>
+
+<section id="peaks">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">01 · The giants</span>
+      <h2>The world's highest peaks</h2>
+      <p>All fourteen mountains taller than 8,000 metres stand in Asia, in the Himalaya and Karakoram. Above that line climbers enter the "death zone", where there is too little oxygen for the human body to survive for long.</p>
+    </div>
+
+    <div class="chart-wrap" role="img" aria-label="Bar chart of the ten highest mountains, from Everest at 8,849 metres to Annapurna at 8,091 metres, drawn to scale from sea level.">
+      <svg id="peak-chart" viewBox="0 0 1000 340"></svg>
+    </div>
+    <p class="chart-note">Bars drawn to scale from sea level. Hover a bar for its height. Dashed line marks the 8,000 m death zone.</p>
+
+    <div class="tabs" role="tablist" aria-label="Peak lists">
+      <button role="tab" id="tab-8k" aria-selected="true" aria-controls="peak-table">Tallest 10</button>
+      <button role="tab" id="tab-7s" aria-selected="false" aria-controls="peak-table">Seven Summits</button>
+      <button role="tab" id="tab-fam" aria-selected="false" aria-controls="peak-table">Famous peaks</button>
+    </div>
+    <div class="table-wrap">
+      <table id="peak-table">
+        <thead><tr><th>Mountain</th><th>Range / Location</th><th class="num">Height</th><th>First ascent</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="types">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">02 · How they form</span>
+      <h2>Five kinds of mountain</h2>
+      <p>Every mountain is built by one of a few forces: plates colliding, crust cracking apart, magma pushing up, or rivers and ice carving away everything around them. The shape of a mountain usually tells you which force made it.</p>
+    </div>
+    <div class="types">
+      <article class="type">
+        <svg viewBox="0 0 300 110" aria-hidden="true">
+          <path class="ground" d="M0 110 V80 C40 80 60 30 100 30 C140 30 150 75 180 75 C210 75 230 20 260 20 C285 20 295 60 300 60 V110Z"/>
+          <path class="layer" d="M0 92 C40 92 60 45 100 45 C140 45 150 88 180 88 C210 88 230 36 260 36 C285 36 295 74 300 74"/>
+          <path class="layer" d="M0 102 C40 102 60 60 100 60 C140 60 150 99 180 99 C210 99 230 52 260 52 C285 52 295 88 300 88"/>
+          <path class="arrow" d="M8 15 H40"/><path class="arrowhead" d="M48 15 L38 10 V20Z"/>
+          <path class="arrow" d="M292 15 H260"/><path class="arrowhead" d="M252 15 L262 10 V20Z"/>
+        </svg>
+        <h3>Fold mountains</h3>
+        <p>Two tectonic plates push into each other and the rock between them crumples like a rug shoved against a wall. These are the biggest and youngest ranges on Earth, and many are still rising.</p>
+        <p class="ex"><b>Examples</b>Himalaya, Alps, Andes, Rockies, Zagros</p>
+      </article>
+      <article class="type">
+        <svg viewBox="0 0 300 110" aria-hidden="true">
+          <path class="ground" d="M0 110 V85 H90 L110 25 L210 50 L210 110Z"/>
+          <path class="rock" d="M210 110 V95 H300 V110Z"/>
+          <path class="layer" d="M0 97 H90"/><path class="layer" d="M106 40 L210 64"/>
+          <path class="arrow" d="M212 30 V80" stroke-dasharray="4 4"/>
+          <path class="arrow" d="M150 15 V2"/><path class="arrowhead" d="M150 -4 L145 6 H155Z"/>
+          <path class="arrow" d="M255 70 V88"/><path class="arrowhead" d="M255 94 L250 84 H260Z"/>
+        </svg>
+        <h3>Fault-block mountains</h3>
+        <p>When the crust is stretched it cracks along faults. Huge blocks tilt or lift on one side and drop on the other, leaving a steep face above a flat valley.</p>
+        <p class="ex"><b>Examples</b>Sierra Nevada, Teton Range, Harz</p>
+      </article>
+      <article class="type">
+        <svg viewBox="0 0 300 110" aria-hidden="true">
+          <path class="ground" d="M20 110 L120 22 H180 L280 110Z"/>
+          <path class="hot" d="M146 110 V40 H154 V110Z"/>
+          <path class="hot" d="M120 110 C120 100 180 100 180 110Z"/>
+          <path class="hot" d="M140 22 C135 10 150 6 150 0 C152 8 166 10 160 22Z" opacity=".6"/>
+        </svg>
+        <h3>Volcanic mountains</h3>
+        <p>Molten rock erupts through the crust and piles up, layer by layer of lava and ash, into a cone. Some of the tallest single mountains on Earth, and in the solar system, are volcanoes.</p>
+        <p class="ex"><b>Examples</b>Mount Fuji, Kilimanjaro, Mauna Loa, Mount St. Helens</p>
+      </article>
+      <article class="type">
+        <svg viewBox="0 0 300 110" aria-hidden="true">
+          <path class="ground" d="M0 110 V90 C70 90 90 25 150 25 C210 25 230 90 300 90 V110Z"/>
+          <path class="hot" d="M95 110 C95 70 205 70 205 110Z"/>
+          <path class="layer" d="M0 100 C70 100 90 40 150 40 C210 40 230 100 300 100"/>
+        </svg>
+        <h3>Dome mountains</h3>
+        <p>Magma rises under the surface but never breaks through. It bulges the rock above into a rounded dome, and erosion later strips the softer top layers away.</p>
+        <p class="ex"><b>Examples</b>Black Hills (South Dakota), Adirondacks, Henry Mountains</p>
+      </article>
+      <article class="type">
+        <svg viewBox="0 0 300 110" aria-hidden="true">
+          <path class="ground" d="M0 110 V40 H70 L95 100 H125 L140 45 H200 L220 100 H245 L260 35 H300 V110Z"/>
+          <path class="layer" d="M0 55 H75"/><path class="layer" d="M138 60 H203"/><path class="layer" d="M257 50 H300"/>
+        </svg>
+        <h3>Plateau (erosion) mountains</h3>
+        <p>A high, flat plateau is cut by rivers and glaciers over millions of years. What is left between the deep valleys stands up as mountains, often with flat tops.</p>
+        <p class="ex"><b>Examples</b>Catskills, Table Mountain, the tepuis of Venezuela</p>
+      </article>
+      <article class="type">
+        <svg viewBox="0 0 300 110" aria-hidden="true">
+          <path class="ground" d="M0 110 V95 C50 95 70 70 110 62 C150 55 170 78 200 70 C240 60 260 88 300 92 V110Z"/>
+          <path class="rock" d="M0 110 V102 H300 V110Z"/>
+        </svg>
+        <h3>Old, worn-down ranges</h3>
+        <p>Every range starts sharp and wears down. The Appalachians formed about 480 to 300 million years ago and may once have been as high as the Alps. Today they are soft, rounded and forested.</p>
+        <p class="ex"><b>Examples</b>Appalachians, Urals, Scottish Highlands</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="zones">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">03 · Climbing through climates</span>
+      <h2>Life zones on a mountain</h2>
+      <p>Walking up a big mountain is like walking from the equator toward the poles. Every few hundred metres the air gets colder and thinner, and plants and animals change with it. The heights below are typical for a mid-latitude range like the Alps or Rockies; near the equator each zone sits higher.</p>
+    </div>
+    <div class="zones">
+      <div class="zone" style="--zc:#e9eef2"><div class="alt" data-range="3500,9000">3,500 m +</div><div><h3>Nival zone (snow and ice)</h3><p>Permanent snow, glaciers and bare rock. Only lichens, a few hardy insects and passing birds survive here. Wind and ultraviolet light are intense.</p></div></div>
+      <div class="zone" style="--zc:#a9b6c0"><div class="alt" data-range="2800,3500">2,800–3,500 m</div><div><h3>Alpine zone</h3><p>Above the treeline. Low cushion plants, grasses and wildflowers hug the ground to stay out of the wind. Home to marmots, pikas, ibex and mountain goats.</p></div></div>
+      <div class="zone" style="--zc:#7c9a5a"><div class="alt" data-range="2000,2800">2,000–2,800 m</div><div><h3>Subalpine zone</h3><p>Stunted, wind-twisted trees called krummholz ("crooked wood") mark the treeline. Conifers such as spruce, fir and larch thin out into meadows.</p></div></div>
+      <div class="zone" style="--zc:#4f7a3a"><div class="alt" data-range="1000,2000">1,000–2,000 m</div><div><h3>Montane zone</h3><p>Dense conifer and mixed forest. Cool and wet, with deer, bears, owls and woodpeckers. Much of a mountain's rain and snow falls in this band.</p></div></div>
+      <div class="zone" style="--zc:#b79a5b"><div class="alt" data-range="0,1000">Below 1,000 m</div><div><h3>Foothills (colline zone)</h3><p>Broadleaf woods, farms and villages. Warmest and most human-shaped part of the mountain.</p></div></div>
+    </div>
+    <div class="lapse">
+      <div><b>−6.5 °C</b><span>Average temperature drop for every 1,000 m you climb</span></div>
+      <div><b>≈ 33%</b><span>Air pressure on top of Everest compared with sea level</span></div>
+      <div><b>+ 10–12%</b><span>Extra UV radiation for every 1,000 m of height</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="animals">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">04 · Built for altitude</span>
+      <h2>Animals of the mountains</h2>
+      <p>Thin air, deep cold, steep rock and short summers make mountains hard places to live. The animals that manage it have thick coats, big hearts and lungs, special blood, and feet that grip like climbing shoes.</p>
+    </div>
+    <div class="chips" role="group" aria-label="Filter by region">
+      <button type="button" data-f="all" aria-pressed="true">All</button>
+      <button type="button" data-f="asia" aria-pressed="false">Asia</button>
+      <button type="button" data-f="americas" aria-pressed="false">The Americas</button>
+      <button type="button" data-f="europe" aria-pressed="false">Europe</button>
+      <button type="button" data-f="africa" aria-pressed="false">Africa</button>
+    </div>
+    <div class="animals" id="animal-grid"></div>
+  </div>
+</section>
+
+<section id="records">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">05 · Superlatives</span>
+      <h2>Mountain records</h2>
+      <p>"Tallest" depends on how you measure. Everest is the highest above sea level, but it is not the tallest from base to peak, and not the farthest point from Earth's centre.</p>
+    </div>
+    <div class="records">
+      <div class="record"><span class="k">Highest above sea level</span><span class="v">Mount Everest</span><p><span class="mono" data-m="8849">8,849 m</span> on the Nepal–China border. Measured jointly by Nepal and China in 2020.</p></div>
+      <div class="record"><span class="k">Tallest base to peak</span><span class="v">Mauna Kea, Hawaiʻi</span><p>About <span class="mono" data-m="10210">10,210 m</span> from its base on the ocean floor. Only <span class="mono" data-m="4207">4,207 m</span> of it is above water.</p></div>
+      <div class="record"><span class="k">Farthest from Earth's centre</span><span class="v">Chimborazo, Ecuador</span><p>Earth bulges at the equator, so this <span class="mono" data-m="6263">6,263 m</span> volcano's summit is about 2 km farther from the planet's centre than Everest's.</p></div>
+      <div class="record"><span class="k">Longest range on land</span><span class="v">The Andes</span><p>About 7,000 km along the west of South America, through seven countries.</p></div>
+      <div class="record"><span class="k">Longest range overall</span><span class="v">Mid-ocean ridge</span><p>About 65,000 km of underwater mountains wind around the globe like the seam on a baseball.</p></div>
+      <div class="record"><span class="k">Highest unclimbed</span><span class="v">Gangkhar Puensum</span><p><span class="mono" data-m="7570">7,570 m</span> in Bhutan, where climbing peaks over 6,000 m has been banned out of respect for local beliefs.</p></div>
+      <div class="record"><span class="k">Greatest sheer drop</span><span class="v">Mount Thor, Canada</span><p>A cliff on Baffin Island with a vertical drop of about <span class="mono" data-m="1250">1,250 m</span>.</p></div>
+      <div class="record"><span class="k">Tallest in the solar system</span><span class="v">Olympus Mons, Mars</span><p>A shield volcano about <span class="mono" data-m="21900">21,900 m</span> high and roughly the size of Arizona.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="facts">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">06 · Did you know?</span>
+      <h2>Interesting mountain facts</h2>
+    </div>
+    <div class="fact-box">
+      <span class="eyebrow">Random fact</span>
+      <blockquote id="fact-text"></blockquote>
+      <div class="row">
+        <span class="count mono" id="fact-count"></span>
+        <button type="button" id="fact-next">Show another fact</button>
+      </div>
+    </div>
+    <ul class="facts-list" id="facts-list"></ul>
+  </div>
+</section>
+
+<section id="people">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">07 · People and peaks</span>
+      <h2>Climbing, safety and the words climbers use</h2>
+    </div>
+    <div class="two">
+      <div>
+        <h3>Why high altitude is dangerous</h3>
+        <p>As you climb, each breath carries less oxygen. Above about 2,500 m many people get <strong>acute mountain sickness</strong>: headaches, nausea, poor sleep. Climbing slowly and sleeping lower than you climb lets the body adapt by making more red blood cells.</p>
+        <p>Worse forms are <strong>HAPE</strong> (fluid in the lungs) and <strong>HACE</strong> (swelling of the brain). Both can kill, and the main cure is to go down at once.</p>
+        <p>Other hazards include avalanches, falling rock, crevasses hidden under snow, sudden storms, frostbite and sunburn from reflected light off snow.</p>
+        <h3 style="margin-top:.6rem">Milestones</h3>
+        <p><strong>1786</strong>: Jacques Balmat and Michel-Gabriel Paccard reach the top of Mont Blanc, often called the birth of mountaineering.<br>
+        <strong>1950</strong>: Annapurna becomes the first 8,000 m peak climbed.<br>
+        <strong>1953</strong>: Edmund Hillary and Tenzing Norgay stand on top of Everest.<br>
+        <strong>1978</strong>: Reinhold Messner and Peter Habeler climb Everest without bottled oxygen.<br>
+        <strong>1986</strong>: Messner becomes the first person to climb all fourteen 8,000 m peaks.<br>
+        <strong>2021</strong>: A Nepali team makes the first winter ascent of K2, the last 8,000 m peak unclimbed in winter.</p>
+      </div>
+      <div>
+        <h3>Mountain words</h3>
+        <dl class="gloss">
+          <dt>Summit</dt><dd>The highest point of a mountain.</dd>
+          <dt>Ridge</dt><dd>A long, narrow crest connecting peaks.</dd>
+          <dt>Col / saddle</dt><dd>The low point on a ridge between two peaks.</dd>
+          <dt>Arête</dt><dd>A sharp knife-edge ridge carved by two glaciers.</dd>
+          <dt>Cirque</dt><dd>A bowl-shaped hollow scooped out by a glacier.</dd>
+          <dt>Couloir</dt><dd>A steep gully, often filled with snow.</dd>
+          <dt>Massif</dt><dd>A compact group of mountains that form one block.</dd>
+          <dt>Prominence</dt><dd>How far a peak rises above the lowest col connecting it to a higher one.</dd>
+          <dt>Treeline</dt><dd>The height above which trees can no longer grow.</dd>
+          <dt>Scree</dt><dd>Loose broken rock piled on a slope.</dd>
+          <dt>Fourteener</dt><dd>In the US, a peak over 14,000 ft. Colorado has more than 50.</dd>
+          <dt>Munro</dt><dd>A Scottish mountain over 3,000 ft. There are 282.</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Above the Treeline · A field guide to mountains</span>
+    <span>Heights are commonly cited survey figures and may vary slightly between sources.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var unit = "m";
+  try { unit = localStorage.getItem("unit") || "m"; } catch (e) {}
+
+  function fmt(m) {
+    var v = unit === "ft" ? Math.round(m * 3.28084) : m;
+    return v.toLocaleString("en-US") + " " + unit;
+  }
+
+  /* ---------- Peaks ---------- */
+  var top10 = [
+    ["Mount Everest", "Himalaya · Nepal / China", 8849, "1953 · Edmund Hillary & Tenzing Norgay", "Called Sagarmāthā in Nepali and Chomolungma in Tibetan."],
+    ["K2", "Karakoram · Pakistan / China", 8611, "1954 · Lino Lacedelli & Achille Compagnoni", "Known as the \"Savage Mountain\" for its difficulty."],
+    ["Kangchenjunga", "Himalaya · Nepal / India", 8586, "1955 · Joe Brown & George Band", "Its name means \"Five Treasures of the Snow\"."],
+    ["Lhotse", "Himalaya · Nepal / China", 8516, "1956 · Fritz Luchsinger & Ernst Reiss", "Joined to Everest by the South Col."],
+    ["Makalu", "Himalaya · Nepal / China", 8485, "1955 · Lionel Terray & Jean Couzy", "A sharp four-sided pyramid."],
+    ["Cho Oyu", "Himalaya · Nepal / China", 8188, "1954 · Herbert Tichy, Joseph Jöchler & Pasang Dawa Lama", "Often called the easiest 8,000 m peak."],
+    ["Dhaulagiri I", "Himalaya · Nepal", 8167, "1960 · Swiss-Austrian expedition", "Name means \"White Mountain\"."],
+    ["Manaslu", "Himalaya · Nepal", 8163, "1956 · Toshio Imanishi & Gyalzen Norbu", "\"Mountain of the Spirit\"."],
+    ["Nanga Parbat", "Himalaya · Pakistan", 8126, "1953 · Hermann Buhl (solo summit push)", "Has one of the biggest mountain faces on Earth."],
+    ["Annapurna I", "Himalaya · Nepal", 8091, "1950 · Maurice Herzog & Louis Lachenal", "First 8,000 m peak ever climbed."]
+  ];
+  var seven = [
+    ["Mount Everest", "Asia · Nepal / China", 8849, "1953", "Highest point in Asia and the world."],
+    ["Aconcagua", "South America · Argentina", 6961, "1897 · Matthias Zurbriggen", "Highest mountain outside Asia."],
+    ["Denali", "North America · Alaska, USA", 6190, "1913 · Hudson Stuck's party", "Rises about 5,500 m from its base, more than Everest does."],
+    ["Kilimanjaro", "Africa · Tanzania", 5895, "1889 · Hans Meyer & Ludwig Purtscheller", "Tallest free-standing mountain on land; you can hike it without ropes."],
+    ["Mount Elbrus", "Europe · Russia (Caucasus)", 5642, "1874 · British party (west summit)", "A dormant volcano with two summits."],
+    ["Mount Vinson", "Antarctica", 4892, "1966 · American expedition", "Only seen from the air until 1958."],
+    ["Puncak Jaya", "Oceania · Indonesia (New Guinea)", 4884, "1962 · Heinrich Harrer's party", "Some lists use Mount Kosciuszko in Australia (2,228 m) instead."]
+  ];
+  var famous = [
+    ["Matterhorn", "Alps · Switzerland / Italy", 4478, "1865 · Edward Whymper's party", "Its near-perfect pyramid is one of the most photographed peaks."],
+    ["Mont Blanc", "Alps · France / Italy", 4806, "1786 · Balmat & Paccard", "Highest peak in the Alps and western Europe."],
+    ["Mount Fuji", "Japan", 3776, "Climbed since ancient times", "A sacred volcano; last erupted in 1707."],
+    ["Mount Rainier", "Cascades · Washington, USA", 4392, "1870 · Hazard Stevens & P. B. Van Trump", "Carries more glacier ice than any other peak in the lower 48 states."],
+    ["Mount Kenya", "Kenya", 5199, "1899 · Halford Mackinder's party", "Second-highest mountain in Africa."],
+    ["Table Mountain", "Cape Town, South Africa", 1085, "Ancient", "Its flat top is often covered by a \"tablecloth\" of cloud."],
+    ["Mount Whitney", "Sierra Nevada · California, USA", 4421, "1873 · three local fishermen", "Highest point in the lower 48; Death Valley's low point is under 150 km away."],
+    ["Ben Nevis", "Scotland, UK", 1345, "1771 · James Robertson", "Highest point in the British Isles."]
+  ];
+  var lists = { "tab-8k": top10, "tab-7s": seven, "tab-fam": famous };
+  var current = "tab-8k";
+
+  function renderTable() {
+    var rows = lists[current].map(function (p) {
+      return "<tr><td><span class=\"name\">" + p[0] + "</span><span class=\"note\">" + p[4] + "</span></td><td>" + p[1] + "</td><td class=\"num\">" + fmt(p[2]) + "</td><td>" + p[3] + "</td></tr>";
+    });
+    document.querySelector("#peak-table tbody").innerHTML = rows.join("");
+  }
+
+  function renderChart() {
+    var svg = document.getElementById("peak-chart");
+    var W = 1000, H = 340, L = 60, R = 10, T = 16, B = 56;
+    var max = 9000, ih = H - T - B, iw = W - L - R;
+    var y = function (m) { return T + ih - (m / max) * ih; };
+    var out = "";
+    for (var g = 0; g <= 9000; g += 1500) {
+      out += "<line class=\"grid\" x1=\"" + L + "\" x2=\"" + (W - R) + "\" y1=\"" + y(g) + "\" y2=\"" + y(g) + "\"/>";
+      var gl = unit === "ft" ? Math.round(g * 3.28084 / 100) * 100 : g;
+      out += "<text x=\"" + (L - 8) + "\" y=\"" + (y(g) + 4) + "\" text-anchor=\"end\">" + gl.toLocaleString("en-US") + "</text>";
+    }
+    out += "<text x=\"" + (L - 8) + "\" y=\"" + (T - 4) + "\" text-anchor=\"end\">" + unit + "</text>";
+    var n = top10.length, slot = iw / n, bw = slot * 0.62;
+    top10.forEach(function (p, i) {
+      var x = L + i * slot + (slot - bw) / 2, yy = y(p[2]);
+      out += "<g class=\"peak\"><title>" + p[0] + ": " + fmt(p[2]) + "</title>" +
+        "<rect class=\"bar" + (i === 0 ? " top" : "") + "\" x=\"" + x + "\" y=\"" + yy + "\" width=\"" + bw + "\" height=\"" + (T + ih - yy) + "\" rx=\"3\"/>" +
+        "<text x=\"" + (x + bw / 2) + "\" y=\"" + (yy - 6) + "\" text-anchor=\"middle\">" + fmt(p[2]).replace(" " + unit, "") + "</text>" +
+        "<text class=\"lbl\" x=\"" + (x + bw / 2) + "\" y=\"" + (H - B + 20) + "\" text-anchor=\"middle\">" + p[0].replace("Mount ", "").replace(" I", "") + "</text></g>";
+    });
+    out += "<line class=\"death\" x1=\"" + L + "\" x2=\"" + (W - R) + "\" y1=\"" + y(8000) + "\" y2=\"" + y(8000) + "\"/>";
+    out += "<text class=\"death-t\" x=\"" + (W - R) + "\" y=\"" + (H - 8) + "\" text-anchor=\"end\">— — death zone starts at " + fmt(8000) + "</text>";
+    svg.innerHTML = out;
+  }
+
+  document.querySelectorAll("[role=tab]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      current = b.id;
+      document.querySelectorAll("[role=tab]").forEach(function (o) { o.setAttribute("aria-selected", o === b ? "true" : "false"); });
+      renderTable();
+    });
+  });
+
+  /* ---------- Animals ---------- */
+  var animals = [
+    { n: "Snow leopard", s: "Panthera uncia", r: "asia", where: "Himalaya, Tibetan Plateau, Central Asia", lo: 3000, hi: 5500,
+      d: "A ghostly grey cat that hunts blue sheep and ibex on cliffs. It cannot roar, and only a few thousand remain in the wild.",
+      a: "Its thick tail is almost as long as its body. It uses it for balance and wraps it round its face like a scarf." },
+    { n: "Yak", s: "Bos mutus (wild)", r: "asia", where: "Tibetan Plateau, Himalaya", lo: 3000, hi: 6000,
+      d: "Wild yaks are huge, shaggy cattle. Domestic yaks carry loads and give milk, wool and fuel to Himalayan people.",
+      a: "Large lungs and heart, and blood that holds oxygen well. Long skirt-like hair keeps out the cold." },
+    { n: "Bar-headed goose", s: "Anser indicus", r: "asia", where: "Migrates across the Himalaya", lo: 0, hi: 7300,
+      d: "Flies over the world's highest mountains twice a year between Central Asia and India.",
+      a: "Special haemoglobin grabs oxygen from thin air, and extra-dense blood vessels feed its wing muscles." },
+    { n: "Giant panda", s: "Ailuropoda melanoleuca", r: "asia", where: "Mountain bamboo forests of central China", lo: 1200, hi: 3100,
+      d: "Lives in cool, misty mountain forests and spends up to 14 hours a day eating bamboo.",
+      a: "A thick, oily coat sheds rain and snow; an enlarged wrist bone works like a thumb for gripping stalks." },
+    { n: "Himalayan jumping spider", s: "Euophrys omnisuperstes", r: "asia", where: "Everest region", lo: 5000, hi: 6700,
+      d: "One of the highest permanent residents on Earth. Its species name means \"standing above everything\".",
+      a: "Lives on frozen insects blown up the mountain by the wind." },
+    { n: "Mountain goat", s: "Oreamnos americanus", r: "americas", where: "Rocky Mountains, Cascades, Alaska", lo: 1500, hi: 4000,
+      d: "Not a true goat; it is more closely related to antelopes. Walks calmly along ledges a few centimetres wide.",
+      a: "Hooves have hard outer rims and soft, grippy pads in the middle, like built-in climbing shoes." },
+    { n: "American pika", s: "Ochotona princeps", r: "americas", where: "Rocky Mountains, Sierra Nevada", lo: 2500, hi: 4000,
+      d: "A tiny relative of rabbits that lives in rock piles and squeaks warnings to neighbours.",
+      a: "It does not hibernate. All summer it gathers \"haypiles\" of plants to eat through the winter." },
+    { n: "Andean condor", s: "Vultur gryphus", r: "americas", where: "Andes", lo: 0, hi: 5000,
+      d: "One of the largest flying birds, with a wingspan up to 3.3 m. It can live more than 50 years.",
+      a: "Soars on rising warm air and mountain winds; one tracked bird flew over 170 km without flapping." },
+    { n: "Vicuña", s: "Vicugna vicugna", r: "americas", where: "High Andes of Peru, Bolivia, Chile, Argentina", lo: 3200, hi: 4800,
+      d: "A slender wild relative of the llama. Its wool is among the finest and most expensive in the world.",
+      a: "Blood rich in oxygen-carrying cells, and teeth that keep growing to cope with tough grass." },
+    { n: "Alpine ibex", s: "Capra ibex", r: "europe", where: "European Alps", lo: 1800, hi: 3300,
+      d: "Males grow curved horns up to a metre long. Hunted nearly to extinction by 1820, now recovered to tens of thousands.",
+      a: "So sure-footed that ibex in Italy climb near-vertical dam walls to lick salt off the stones." },
+    { n: "Alpine marmot", s: "Marmota marmota", r: "europe", where: "Alps, Carpathians, Pyrenees", lo: 800, hi: 3200,
+      d: "A large, chubby ground squirrel that whistles loudly when it spots an eagle.",
+      a: "Hibernates in family groups for up to six months, huddling together to save warmth." },
+    { n: "Golden eagle", s: "Aquila chrysaetos", r: "europe", where: "Mountains across the Northern Hemisphere", lo: 0, hi: 4000,
+      d: "A powerful hunter of marmots, hares and even young goats. Pairs may use the same cliff nest for decades.",
+      a: "Eyesight several times sharper than a human's, and dives at well over 200 km/h." },
+    { n: "Mountain gorilla", s: "Gorilla beringei beringei", r: "africa", where: "Virunga volcanoes and Bwindi (Uganda, Rwanda, DR Congo)", lo: 1400, hi: 3800,
+      d: "Only about 1,000 live in the wild, but their numbers are slowly growing thanks to protection.",
+      a: "Longer, thicker fur than lowland gorillas keeps them warm in cold, misty cloud forests." },
+    { n: "Ethiopian wolf", s: "Canis simensis", r: "africa", where: "Ethiopian Highlands", lo: 3000, hi: 4500,
+      d: "Africa's rarest carnivore, with fewer than 500 left. It hunts giant mole-rats on high moorland.",
+      a: "Hunts alone in open grassland by day, using its long snout to dig rodents from burrows." }
+  ];
+  var filter = "all";
+  function renderAnimals() {
+    var grid = document.getElementById("animal-grid");
+    var top = 7500;
+    grid.innerHTML = animals.filter(function (a) { return filter === "all" || a.r === filter; }).map(function (a) {
+      var left = (a.lo / top * 100).toFixed(1), width = ((Math.min(a.hi, top) - a.lo) / top * 100).toFixed(1);
+      return "<article class=\"animal\"><h3>" + a.n + "</h3><p class=\"sci\">" + a.s + "</p>" +
+        "<div class=\"meta\"><span>" + a.where + "</span></div>" +
+        "<div><div class=\"elev\" aria-hidden=\"true\"><i style=\"left:" + left + "%;width:" + width + "%\"></i></div>" +
+        "<div class=\"elev-l\"><span>Lives at " + fmt(a.lo) + " – " + fmt(a.hi) + "</span></div></div>" +
+        "<p>" + a.d + "</p><p class=\"adapt\"><b>Adaptation:</b> " + a.a + "</p></article>";
+    }).join("");
+  }
+  document.querySelectorAll(".chips button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      filter = b.dataset.f;
+      document.querySelectorAll(".chips button").forEach(function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); });
+      renderAnimals();
+    });
+  });
+
+  /* ---------- Facts ---------- */
+  var facts = [
+    "The rock at the top of Everest is marine limestone. It formed on the floor of an ancient sea and holds fossils of sea creatures.",
+    "The Himalaya are still rising by a few millimetres every year as India keeps pushing into Asia.",
+    "Mountains supply between 60% and 80% of the world's fresh water. That is why they are called the world's water towers.",
+    "About 1 in 10 people on Earth live in mountain areas.",
+    "On Everest's summit each breath carries about a third of the oxygen it would at sea level.",
+    "Water boils at only about 70 °C on top of Everest, so cooking pasta up there takes much longer.",
+    "Mountains make their own weather. Moist air rises up one side, cools and drops rain, leaving a dry \"rain shadow\" on the other side.",
+    "The Atacama Desert, one of the driest places on Earth, lies in the rain shadow of the Andes.",
+    "The longest mountain range on Earth is almost entirely under the ocean: the mid-ocean ridge, about 65,000 km long.",
+    "Mount Everest gained its English name in 1865, after George Everest, a surveyor who never saw it and asked that it not be named after him.",
+    "Denali rises about 5,500 m from its base, which is more vertical relief than Everest has from its own base on the Tibetan Plateau.",
+    "Glaciers on mountains can flow like very slow rivers, moving anywhere from a few centimetres to tens of metres a day.",
+    "Kilimanjaro has glaciers almost on the equator, but they have shrunk by more than 80% since the early 1900s.",
+    "The Alps are home to about 14 million people and get over 100 million visitors each year.",
+    "Lightning strikes mountain tops much more often than flat ground, which is why climbers try to be off summits by early afternoon.",
+    "Above the treeline, many alpine plants grow for decades but stay only a few centimetres tall.",
+    "Mountains cover about a quarter of Earth's land surface and hold about a quarter of all land plant and animal species.",
+    "The Appalachians are older than the Atlantic Ocean. They formed when the continents were joined in the supercontinent Pangaea.",
+    "Sherpa people often have genes that help their bodies use oxygen better at altitude, inherited partly from ancient Denisovans.",
+    "Everest's official height changed from 8,848 m to 8,849 m after a joint China–Nepal survey in 2020."
+  ];
+  var fi = Math.floor(Math.random() * facts.length);
+  function showFact() {
+    document.getElementById("fact-text").textContent = facts[fi];
+    document.getElementById("fact-count").textContent = "Fact " + (fi + 1) + " of " + facts.length;
+  }
+  document.getElementById("fact-next").addEventListener("click", function () {
+    var n; do { n = Math.floor(Math.random() * facts.length); } while (n === fi && facts.length > 1);
+    fi = n; showFact();
+  });
+  document.getElementById("facts-list").innerHTML = facts.slice(0, 10).map(function (f) { return "<li>" + f + "</li>"; }).join("");
+
+  /* ---------- Units ---------- */
+  function renderUnits() {
+    document.getElementById("u-m").setAttribute("aria-pressed", unit === "m" ? "true" : "false");
+    document.getElementById("u-ft").setAttribute("aria-pressed", unit === "ft" ? "true" : "false");
+    document.querySelectorAll("[data-m]").forEach(function (el) { el.textContent = fmt(+el.dataset.m); });
+    document.querySelectorAll("[data-range]").forEach(function (el) {
+      var r = el.dataset.range.split(",").map(Number);
+      el.textContent = r[0] === 0 ? "Below " + fmt(r[1]) : r[1] >= 9000 ? fmt(r[0]) + " +" : fmt(r[0]).replace(" " + unit, "") + "–" + fmt(r[1]);
+    });
+    renderChart(); renderTable(); renderAnimals();
+  }
+  function setUnit(u) { unit = u; try { localStorage.setItem("unit", u); } catch (e) {} renderUnits(); }
+  document.getElementById("u-m").addEventListener("click", function () { setUnit("m"); });
+  document.getElementById("u-ft").addEventListener("click", function () { setUnit("ft"); });
+
+  showFact();
+  renderUnits();
+})();
+</script>
+</body>
+</html>
