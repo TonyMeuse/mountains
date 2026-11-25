@@ -212,6 +212,16 @@ dl.gloss dt { font-family: var(--display); font-weight: 700; }
 dl.gloss dd { margin: 0; font-size: 0.95rem; color: var(--muted); }
 @media (max-width: 480px) { dl.gloss { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; } dl.gloss dd { margin-bottom: 0.6rem; } }
 
+/* REFERENCES */
+.refs { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+.refs > div { min-width: 0; }
+.refs h3 { font-size: 1rem; margin-bottom: 0.6rem; }
+.refs ol { margin: 0; padding-left: 1.4rem; display: grid; gap: 0.45rem; font-size: 0.88rem; color: var(--muted); }
+.refs li { overflow-wrap: anywhere; }
+.refs a { color: var(--ink); text-decoration-color: var(--accent); text-underline-offset: 2px; }
+.refs a:hover { color: var(--accent); }
+.refs-note { margin-top: 1.8rem; font-size: 0.85rem; color: var(--muted); max-width: 70ch; }
+
 footer { border-top: 1px solid var(--line); padding-block: 2.5rem; color: var(--muted); font-size: 0.85rem; }
 footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content: space-between; }
 </style>
@@ -229,6 +239,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
       <li><a class="n" href="#records">Records</a></li>
       <li><a class="n" href="#facts">Facts</a></li>
       <li><a class="n" href="#people">Climbing</a></li>
+      <li><a class="n" href="#references">Sources</a></li>
     </ul>
     <div class="unit-toggle" role="group" aria-label="Units">
       <button type="button" id="u-m" aria-pressed="true">m</button>
@@ -481,6 +492,71 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content
         </dl>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="references">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Sources</span>
+      <h2>References</h2>
+      <p>Where the facts and figures on this page come from. Links open the original source in a new tab.</p>
+    </div>
+    <div class="refs">
+      <div>
+        <h3>Peaks, heights and records</h3>
+        <ol>
+          <li><a href="https://en.wikipedia.org/wiki/Mount_Everest" target="_blank" rel="noopener">Mount Everest</a>, Wikipedia (incl. the 2020 China–Nepal survey of 8,848.86 m).</li>
+          <li><a href="https://en.wikipedia.org/wiki/Eight-thousander" target="_blank" rel="noopener">Eight-thousander</a>, Wikipedia (heights and first ascents of the 14 peaks).</li>
+          <li><a href="https://en.wikipedia.org/wiki/Seven_Summits" target="_blank" rel="noopener">Seven Summits</a>, Wikipedia.</li>
+          <li><a href="https://oceanservice.noaa.gov/facts/highestpoint.html" target="_blank" rel="noopener">What is the highest point on Earth as measured from Earth's center?</a>, NOAA National Ocean Service.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Mauna_Kea" target="_blank" rel="noopener">Mauna Kea</a> and <a href="https://en.wikipedia.org/wiki/Chimborazo" target="_blank" rel="noopener">Chimborazo</a>, Wikipedia.</li>
+          <li><a href="https://oceanexplorer.noaa.gov/facts/mid-ocean-ridge.html" target="_blank" rel="noopener">What is the mid-ocean ridge?</a>, NOAA Ocean Exploration.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Andes" target="_blank" rel="noopener">Andes</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Gangkhar_Puensum" target="_blank" rel="noopener">Gangkhar Puensum</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Mount_Thor" target="_blank" rel="noopener">Mount Thor</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Olympus_Mons" target="_blank" rel="noopener">Olympus Mons</a>, Wikipedia.</li>
+        </ol>
+      </div>
+      <div>
+        <h3>How mountains form and climate</h3>
+        <ol start="11">
+          <li><a href="https://en.wikipedia.org/wiki/Mountain_formation" target="_blank" rel="noopener">Mountain formation</a> and <a href="https://en.wikipedia.org/wiki/Mountain" target="_blank" rel="noopener">Mountain</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Appalachian_Mountains" target="_blank" rel="noopener">Appalachian Mountains</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Altitudinal_zonation" target="_blank" rel="noopener">Altitudinal zonation</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Lapse_rate" target="_blank" rel="noopener">Lapse rate</a>, Wikipedia (6.5 °C per 1,000 m).</li>
+          <li><a href="https://en.wikipedia.org/wiki/Rain_shadow" target="_blank" rel="noopener">Rain shadow</a>, Wikipedia.</li>
+          <li><a href="https://www.who.int/news-room/questions-and-answers/item/radiation-the-ultraviolet-(uv)-index" target="_blank" rel="noopener">Radiation: The ultraviolet (UV) index</a>, World Health Organization.</li>
+          <li><a href="https://www.un.org/en/observances/mountain-day" target="_blank" rel="noopener">International Mountain Day</a>, United Nations.</li>
+          <li><a href="https://www.fao.org/mountain-partnership/en/" target="_blank" rel="noopener">Mountain Partnership</a>, FAO (mountain water, people and biodiversity).</li>
+          <li><a href="https://en.wikipedia.org/wiki/Mount_Kilimanjaro" target="_blank" rel="noopener">Mount Kilimanjaro</a>, Wikipedia (glacier retreat).</li>
+        </ol>
+      </div>
+      <div>
+        <h3>Animals</h3>
+        <ol start="20">
+          <li><a href="https://en.wikipedia.org/wiki/Snow_leopard" target="_blank" rel="noopener">Snow leopard</a>, <a href="https://en.wikipedia.org/wiki/Wild_yak" target="_blank" rel="noopener">Wild yak</a> and <a href="https://en.wikipedia.org/wiki/Giant_panda" target="_blank" rel="noopener">Giant panda</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Bar-headed_goose" target="_blank" rel="noopener">Bar-headed goose</a>, Wikipedia; Hawkes et al. (2011), "The trans-Himalayan flights of bar-headed geese", <i>PNAS</i> 108(23).</li>
+          <li><a href="https://en.wikipedia.org/wiki/Euophrys_omnisuperstes" target="_blank" rel="noopener">Euophrys omnisuperstes</a> (Himalayan jumping spider), Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Mountain_goat" target="_blank" rel="noopener">Mountain goat</a> and <a href="https://en.wikipedia.org/wiki/American_pika" target="_blank" rel="noopener">American pika</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Andean_condor" target="_blank" rel="noopener">Andean condor</a> and <a href="https://en.wikipedia.org/wiki/Vicu%C3%B1a" target="_blank" rel="noopener">Vicuña</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Alpine_ibex" target="_blank" rel="noopener">Alpine ibex</a>, <a href="https://en.wikipedia.org/wiki/Alpine_marmot" target="_blank" rel="noopener">Alpine marmot</a> and <a href="https://en.wikipedia.org/wiki/Golden_eagle" target="_blank" rel="noopener">Golden eagle</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Mountain_gorilla" target="_blank" rel="noopener">Mountain gorilla</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Ethiopian_wolf" target="_blank" rel="noopener">Ethiopian wolf</a>, Wikipedia; <a href="https://www.ethiopianwolf.org/" target="_blank" rel="noopener">Ethiopian Wolf Conservation Programme</a>.</li>
+        </ol>
+      </div>
+      <div>
+        <h3>Climbing and people</h3>
+        <ol start="28">
+          <li><a href="https://en.wikipedia.org/wiki/Death_zone" target="_blank" rel="noopener">Death zone</a> and <a href="https://en.wikipedia.org/wiki/Altitude_sickness" target="_blank" rel="noopener">Altitude sickness</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Reinhold_Messner" target="_blank" rel="noopener">Reinhold Messner</a>, Wikipedia.</li>
+          <li><a href="https://en.wikipedia.org/wiki/K2" target="_blank" rel="noopener">K2</a>, Wikipedia (first winter ascent, 2021).</li>
+          <li>Huerta-Sánchez et al. (2014), <a href="https://doi.org/10.1038/nature13408" target="_blank" rel="noopener">"Altitude adaptation in Tibetans caused by introgression of Denisovan-like DNA"</a>, <i>Nature</i> 512.</li>
+          <li><a href="https://en.wikipedia.org/wiki/Fourteener" target="_blank" rel="noopener">Fourteener</a> and <a href="https://en.wikipedia.org/wiki/Munro" target="_blank" rel="noopener">Munro</a>, Wikipedia.</li>
+        </ol>
+      </div>
+    </div>
+    <p class="refs-note">Heights and population numbers change as new surveys are made, and different sources sometimes round them differently. Links last checked November 2026.</p>
   </div>
 </section>
 
